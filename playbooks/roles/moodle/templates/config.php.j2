@@ -1,0 +1,39 @@
+<?php  // Moodle configuration file
+
+# Fix decimal point issue with  prepared SQL statements
+setlocale(LC_NUMERIC, 'C');
+
+unset($CFG);
+global $CFG;
+$CFG = new stdClass();
+
+$CFG->dbtype    = '{{ moodle_cfg.dbtype }}';
+$CFG->dblibrary = 'native';
+$CFG->dbhost    = '{{ moodle_cfg.dbhost }}';
+$CFG->dbname    = '{{ moodle_cfg.dbname }}';
+$CFG->dbuser    = '{{ moodle_cfg.dbuser }}';
+$CFG->dbpass    = '{{ moodle_cfg.dbpass }}';
+$CFG->prefix    = 'mdl_';
+$CFG->dboptions = array(
+    'dbpersist'     => {{ moodle_cfg.dboptions.dbpersist | default('false') }},
+    'dbsocket'      => '{{ moodle_cfg.dboptions.dbsocket | default('false') }}',
+);
+
+$CFG->wwwroot   = array_key_exists('SERVER_NAME', $_SERVER) ? 'https://'.$_SERVER['SERVER_NAME'].'/{{ moodle_folder_name }}' : 'https://{{ moodle_cfg.wwwhost }}/{{ moodle_folder_name }}';
+$CFG->dataroot  = '{{ moodle_cfg.dataroot }}';
+$CFG->admin     = 'admin';
+
+$CFG->directorypermissions = 02777;
+
+$CFG->lock_factory = "\\core\\lock\\db_record_lock_factory";
+
+# See https://docs.moodle.org/39/en/Upload_courses#Increasing_speed
+$CFG->keeptempdirectoriesonbackup = true;
+
+# See https://muras.eu/2020/05/17/Session-locking-in-Moodle-part3/
+$CFG->enable_read_only_sessions = true;
+
+require_once(__DIR__ . '/lib/setup.php');
+
+// There is no php closing tag in this file,
+// it is intentional because it prevents trailing whitespace problems!

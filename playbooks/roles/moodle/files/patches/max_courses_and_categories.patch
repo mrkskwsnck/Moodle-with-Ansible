@@ -1,0 +1,20 @@
+diff --git a/lib/datalib.php b/lib/datalib.php
+index d20cc59ffb7..ce420c06cb2 100644
+--- a/lib/datalib.php
++++ b/lib/datalib.php
+@@ -32,13 +32,13 @@ defined('MOODLE_INTERNAL') || die();
+  * The maximum courses in a category
+  * MAX_COURSES_IN_CATEGORY * MAX_COURSE_CATEGORIES must not be more than max integer!
+  */
+-define('MAX_COURSES_IN_CATEGORY', 10000);
++define('MAX_COURSES_IN_CATEGORY', 20000);
+ 
+ /**
+   * The maximum number of course categories
+   * MAX_COURSES_IN_CATEGORY * MAX_COURSE_CATEGORIES must not be more than max integer!
+   */
+-define('MAX_COURSE_CATEGORIES', 10000);
++define('MAX_COURSE_CATEGORIES', 5000);
+ 
+ /**
+  * Number of seconds to wait before updating lastaccess information in DB.

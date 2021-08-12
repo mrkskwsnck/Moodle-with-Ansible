@@ -1,0 +1,14 @@
+diff --git a/lib/simplepie/moodle_simplepie.php b/lib/simplepie/moodle_simplepie.php
+index 777ee23a8ee..404a2f12570 100644
+--- a/lib/simplepie/moodle_simplepie.php
++++ b/lib/simplepie/moodle_simplepie.php
+@@ -150,7 +150,8 @@ class moodle_simplepie_file extends SimplePie_File {
+             return false;
+         }
+ 
+-        $parser = new SimplePie_HTTP_Parser($this->headers);
++        list($extra_header, $response) = explode("\r\n\r\n", $this->headers, 2);    // HACK to get rid of extra HTTP header added by a proxy
++        $parser = new SimplePie_HTTP_Parser($response);
+ 
+         if ($parser->parse()) {
+             $this->headers = $parser->headers;

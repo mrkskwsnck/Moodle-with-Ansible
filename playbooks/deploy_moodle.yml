@@ -15,6 +15,15 @@
 - hosts: all
   gather_facts: no
 
+  # vars_prompt:
+  #   # See FORTHEM plug-in repo
+  #   - name: gitlabcom_username
+  #     prompt: "What is your GitLab.com username?"
+  #     private: no
+  #   - name: gitlabcom_password
+  #     prompt: "What is your GitLab.com password?"
+  #     private: yes
+
   roles:
     - prerequisites
     - kill_all_sessions
