@@ -1,0 +1,8 @@
+---
+# Shall be ran on every host of the server farm, so the local cache gets purged,
+# too! Else the global cache, plus the only host ran on, get purged.
+- name: Purge all caches
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: /usr/bin/php admin/cli/purge_caches.php
+  tags: purgecaches

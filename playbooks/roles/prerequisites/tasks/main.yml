@@ -1,0 +1,11 @@
+---
+- name: Update apt cache if needed
+  apt: update_cache=true cache_valid_time=3600
+  tags: prerequisites
+
+- name: "Install packages {{ packages }}"
+  apt:
+    name: "{{ packages }}"
+    state: present
+    install_recommends: no
+  tags: prerequisites

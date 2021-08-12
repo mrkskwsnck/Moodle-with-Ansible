@@ -1,0 +1,6 @@
+---
+- name: Kill all Moodle sessions
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: /usr/bin/php admin/cli/kill_all_sessions.php
+  tags: killallsessions

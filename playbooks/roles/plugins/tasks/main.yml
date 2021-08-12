@@ -1,0 +1,12 @@
+---
+- name: "Check out ALL THE Moodle plug-ins for {{ moodle_instance | upper() }} instance"
+  git:
+    accept_hostkey: yes
+    repo: "{{ item.repo }}"
+    version: "{{ item.version | default('HEAD') }}"
+    dest: "{{ moodle_home }}/{{ item.dest }}"
+    track_submodules: "{{ item.track_submodules | default('no') }}"
+    update: yes
+    force: no
+  with_items: "{{ moodle_plugins }}"
+  tags: checkout

@@ -1,0 +1,51 @@
+---
+# Playbook to deploy Moodle on a server farm
+
+- hosts: primary
+  gather_facts: no
+
+  pre_tasks:
+    - name: Turn maintenance mode on
+      shell:
+        chdir: "{{ moodle_home }}"
+        cmd: "/usr/bin/php admin/cli/maintenance.php --enableold"
+      become_user: "{{ moodle_user }}"
+      tags: [ maintenance, maintenanceon ]
+
+- hosts: all
+  gather_facts: no
+
+  roles:
+    - prerequisites
+    - kill_all_sessions
+    - moodle
+    - plugins
+    - securitytxt
+
+- hosts: primary
+  gather_facts: no
+  become_user: "{{ moodle_user }}"
+  
+  tasks:
+    - name: "Perform upgrade of Moodle to version {{ moodle_version }} for {{ moodle_instance | upper() }} instance"
+      shell:
+        chdir: "{{ moodle_home }}"
+        cmd: "/usr/bin/php admin/cli/upgrade.php --lang=en --non-interactive --verbose-settings"
+      tags: [ upgradeonly ]
+
+- hosts: all
+  gather_facts: no
+
+  roles:
+    - purge_caches
+
+- hosts: primary
+  gather_facts: no
+
+  post_tasks:
+    - name: Turn maintenance mode off
+      shell:
+        chdir: "{{ moodle_home }}"
+        cmd: "/usr/bin/php admin/cli/maintenance.php --disable"
+      become_user: "{{ moodle_user }}"
+      tags: [ maintenance, maintenanceoff ]

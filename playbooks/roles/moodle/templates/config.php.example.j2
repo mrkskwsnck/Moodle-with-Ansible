@@ -1,0 +1,30 @@
+<?php  // Moodle configuration file
+
+unset($CFG);
+global $CFG;
+$CFG = new stdClass();
+
+$CFG->dbtype    = '{{ moodle_cfg.dbtype }}';
+$CFG->dblibrary = 'native';
+$CFG->dbhost    = '{{ moodle_cfg.dbhost }}';
+$CFG->dbname    = '{{ moodle_cfg.dbname }}';
+$CFG->dbuser    = '{{ moodle_cfg.dbuser }}';
+$CFG->dbpass    = '{{ moodle_cfg.dbpass }}';
+$CFG->prefix    = 'mdl_';
+$CFG->dboptions = array(
+    'dbpersist'     => {{ moodle_cfg.dboptions.dbpersist | default('false') }},
+    'dbport'        => {{ moodle_cfg.dboptions.dbport | default("''") }},
+    'dbsocket'      => '{{ moodle_cfg.dboptions.dbsocket | default('false') }}',
+    'dbcollation'   => '{{ moodle_cfg.dboptions.dbcollation | default('utf8mb4_unicode_ci') }}',
+);
+
+$CFG->wwwroot   = '{{ moodle_cfg.wwwroot }}';
+$CFG->dataroot  = '{{ moodle_cfg.dataroot }}';
+$CFG->admin     = 'admin';
+
+$CFG->directorypermissions = 02777;
+
+require_once(__DIR__ . '/lib/setup.php');
+
+// There is no php closing tag in this file,
+// it is intentional because it prevents trailing whitespace problems!

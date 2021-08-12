@@ -1,0 +1,18 @@
+---
+- name: Delete wrong placed .well-known folder
+  file:
+    path: "{{ moodle_home }}/.well-known"
+    state: absent
+  tags: securitytxt
+- name: Create .well-known folder
+  file:
+    dest: "{{ document_root }}/.well-known"
+    mode: 0755
+    state: directory
+  tags: securitytxt
+- name: Copy security.txt file
+  copy:
+    src: security.txt
+    dest: "{{ document_root }}/.well-known"
+    mode: 0644
+  tags: securitytxt

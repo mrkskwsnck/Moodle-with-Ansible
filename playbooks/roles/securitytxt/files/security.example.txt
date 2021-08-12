@@ -1,0 +1,4 @@
+Contact: https://www.example.org/~user/
+Contact: mailto:user@example.org
+Expires: 2038-01-19T03:14:07.000Z
+Preferred-Languages: de, en, es, fi, fr, it, lv, pl

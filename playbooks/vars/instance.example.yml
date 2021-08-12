@@ -1,0 +1,45 @@
+---
+# Variables for a specific Moodle instance
+
+document_root: "/var/www/html"
+moodle_instance: instance_codename
+moodle_version: v3.9.9
+moodle_folder_name: "{{ moodle_instance }}"
+moodle_home: "{{ document_root }}/{{ moodle_folder_name }}"
+
+moodle_cfg:
+  dbtype: mariadb
+  dbhost: localhost
+  dbname: moodle
+  dbuser: username
+  dbpass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          39393164333637333934636363656364333639306338636465656562646363333435613439363331
+          3064376362643834376439366636366566323766646163610a366230653934643235316439306635
+          64356235376462353262623864353663323765313538663234386265366430346532376165666463
+          6538356237623563360a393664316235363339373163613035303065383338313962373939363739
+          6134
+  dboptions:
+    dbpersist: 'false'
+    dbport: "''"
+    dbsocket: 'false'
+    dbcollation: utf8mb4_unicode_ci
+  wwwhost: www.example.org
+  wwwroot: https://www.example.org/moodle
+  dataroot: "/var/www/moodledata"
+
+moodle_plugins:
+  # Arbitrary list of plug-in dictionaries consisting of repo, version and dest
+  # attributes. Where dest is relative to the {{ moodle_home }} path.
+  - repo: https://github.com/user1/moodle-mod_foo.git
+    version: master
+    dest: "mod/foo"
+  - repo: https://github.com/user2/moodle-block_bar.git
+    version: main
+    dest: "blocks/bar"
+  - repo: https://gitlab.com/user3/moodle-format_baz.git
+    version: MOODLE_39_STABLE
+    dest: "course/format/baz"
+  - repo: https://gitlab.com/user4/moodle-local_qux.git
+    version: 2020061500
+    dest: "local/qux"
