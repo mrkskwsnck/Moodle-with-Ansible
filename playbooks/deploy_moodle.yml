@@ -17,7 +17,7 @@
 
   roles:
     - prerequisites
-    - kill_all_sessions
+    - sessions
     - moodle
     - plugins
     - securitytxt
@@ -37,7 +37,7 @@
   gather_facts: no
 
   roles:
-    - purge_caches
+    - caches
 
 - hosts: primary
   gather_facts: no
