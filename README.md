@@ -2,6 +2,14 @@
 
 Collection of Ansible Playbooks and Roles to deploy and maintain Moodle.
 
+# Cheatsheet
+
+**Deploy Moodle**
+
+```bash
+ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE [--extra-var git_force=yes --check]
+```
+
 ## License
 
 ```

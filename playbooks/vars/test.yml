@@ -23,7 +23,7 @@ moodle_cfg:
     dbpersist: 'false'
     dbsocket: 'false'
   wwwhost: lms-stage.uni-mainz.de
-  wwwroot: https://lms-stage.uni-mainz.de/test
+  wwwroot: "https://lms-stage.uni-mainz.de/{{ moodle_instance }}"
   dataroot: "/var/moodle/data/{{ moodle_instance }}"
 
 moodle_plugins:
@@ -43,6 +43,11 @@ moodle_plugins:
   - repo: https://github.com/academic-moodle-cooperation/moodle-mod_checkmark.git
     version: v3.9.1
     dest: "mod/checkmark"
+  - name: mod_choicegroup
+    repo: https://github.com/ndunand/moodle-mod_choicegroup.git
+    version: 2021080500
+    dest: "mod/choicegroup"
+    state: present
   - repo: https://github.com/gbateson/moodle-mod_hotpot
     version: 2020-06-05-(44)
     dest: "mod/hotpot"
@@ -59,7 +64,7 @@ moodle_plugins:
     version: v3.9.0
     dest: "mod/publication"
   - repo: https://github.com/PoetOS/moodle-mod_questionnaire.git
-    version: "3.10.1"
+    version: 3.10.1
     dest: "mod/questionnaire"
   - repo: https://github.com/frankkoch/moodle-mod_studentquiz.git
     version: v4.5.0
@@ -82,11 +87,18 @@ moodle_plugins:
   # - repo: "https://{{ gitlabcom_username | urlencode }}:{{ gitlabcom_password | urlencode }}@gitlab.com/Claud10R/moodle-forthem.git"
   #   version: v2021052803
   #   dest: blocks/forthem
-  - repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
-    version: 2021062900
+  - name: block_panopto
+    repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
+    version: 2021081600
     dest: "blocks/panopto"
+    state: present
 
   # Question types
+  - name: qtype_matrix
+    repo: https://github.com/ndunand/moodle-qtype_matrix.git
+    version: 2021081800
+    dest: "question/type/matrix"
+    state: present
   - repo: https://github.com/marcusgreen/moodle-qtype_wordselect.git
     version: v2.46
     dest: "question/type/wordselect"
