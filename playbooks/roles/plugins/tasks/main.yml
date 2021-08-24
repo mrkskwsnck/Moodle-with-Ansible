@@ -2,7 +2,7 @@
 - name: "Uninstall plug-ins from {{ moodle_instance | upper() }} instance"
   shell:
     chdir: "{{ moodle_home }}"
-    cmd: "/usr/bin/php admin/cli/uninstall_plugins.php --plugins={{ item.name }} --run"
+    cmd: "php admin/cli/uninstall_plugins.php --plugins={{ item.name }} --run"
   when: item.state is defined and item.state == 'absent'
   with_items: "{{ moodle_plugins }}"
   tags: [uninstall, plugins]
@@ -13,6 +13,20 @@
     state: absent
   when: item.state is defined and item.state == 'absent'
   with_items: "{{ moodle_plugins }}"
+  tags: [uninstall, plugins]
+
+- name: "Determine plug-ins missing from disk on {{ moodle_instance | upper() }} instance"
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: "php admin/cli/uninstall_plugins.php --show-missing"
+  register: missing_from_disk
+  tags: [uninstall, plugins]
+
+# TODO Make a clean comma seperated list of plug-ins split by a tab
+- name: "Purge plug-ins “{{ missing_from_disk.stdout_lines | join(', ') }}” missing from disk on {{ moodle_instance | upper() }} instance"
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: "php admin/cli/uninstall_plugins.php --purge-missing --run"
   tags: [uninstall, plugins]
 
 - name: "Check out ALL THE Moodle plug-ins for {{ moodle_instance | upper() }} instance"
