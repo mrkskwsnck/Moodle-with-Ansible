@@ -35,10 +35,10 @@ moodle_plugins:
     version: MOODLE_38_STABLE
     dest: "mod/attendance"
   - repo: https://github.com/blindsidenetworks/moodle-mod_bigbluebuttonbn.git
-    version: v2.4.3
+    version: v2.4.4
     dest: "mod/bigbluebuttonbn"
   - repo: https://github.com/davosmith/moodle-checklist.git
-    version: "3.9.0.2"
+    version: 3.9.0.2
     dest: "mod/checklist"
   - repo: https://github.com/academic-moodle-cooperation/moodle-mod_checkmark.git
     version: v3.9.1
@@ -52,13 +52,17 @@ moodle_plugins:
     version: 2020-06-05-(44)
     dest: "mod/hotpot"
   - repo: https://github.com/PhilDevine/moodle-mod_labelcollapsed.git
-    version: "master"
+    version: master
     dest: "mod/labelcollapsed"
+  - name: mod_moodleoverflow
+    repo: https://github.com/learnweb/moodle-mod_moodleoverflow.git
+    version: v3.11-r2
+    dest: "mod/moodleoverflow"
   - repo: https://github.com/academic-moodle-cooperation/moodle-mod_organizer.git
     version: v3.9.1
     dest: "mod/organizer"
   - repo: https://github.com/mudrd8mz/moodle-mod_poster.git
-    version: "6.0.1"
+    version: 6.0.1
     dest: "mod/poster"
   - repo: https://github.com/academic-moodle-cooperation/moodle-mod_publication.git
     version: v3.9.0
@@ -122,8 +126,9 @@ moodle_plugins:
     dest: "lib/editor/atto/plugins/styles"
 
   # Enrolment methods
-  - repo: https://github.com/ndunand/moodle-enrol_attributes.git
-    version: 2021063000
+  - name: enrol_attributes
+    repo: https://github.com/ndunand/moodle-enrol_attributes.git
+    version: 2021082400
     dest: "enrol/attributes"
 
   # Authentication methods
@@ -149,10 +154,10 @@ moodle_plugins:
     version: V3.9.1.4
     dest: "course/format/grid"
   - repo: https://github.com/stefanscholz/moodle-format_kickstart.git
-    version: "v1.1.9"
+    version: v1.1.9
     dest: "course/format/kickstart"
   - repo: https://github.com/james-cnz/moodle-format_multitopic.git
-    version: "v2.1.2"
+    version: v2.1.2
     dest: "course/format/multitopic"
   - repo: https://github.com/WisdmLabs/moodle-format_remuiformat.git
     version: v1.1.0
@@ -161,7 +166,7 @@ moodle_plugins:
     version: MOODLE_39_STABLE
     dest: "course/format/timeline"
   - repo: https://github.com/JotaDF/moodle-format_trail.git
-    version: "main"
+    version: main
     dest: "course/format/trail"
 
   # Reports
