@@ -58,6 +58,11 @@ moodle_plugins:
     repo: https://github.com/learnweb/moodle-mod_moodleoverflow.git
     version: v3.11-r2
     dest: "mod/moodleoverflow"
+  - name: mod_pdfannotator
+    repo: https://github.com/rwthmoodle/moodle-mod_pdfannotator.git
+    version: v1.4.7.2_Moodle3.10
+    dest: "mod/pdfannotator"
+    state: present
   - repo: https://github.com/academic-moodle-cooperation/moodle-mod_organizer.git
     version: v3.9.1
     dest: "mod/organizer"
@@ -176,6 +181,15 @@ moodle_plugins:
   - repo: https://github.com/catalyst/moodle-report_coursesize.git
     version: master
     dest: "report/coursesize"
+
+  # Themes
+  - name: theme_boost_campus
+    repo: https://github.com/moodleuulm/moodle-theme_boost_campus.git
+    version: v3.9-r11
+    dest: "theme/boost_campus"
+    state: present
+    apply_patches: yes
+    copy_files: yes
 
   # Local plugins
   - repo: https://github.com/academic-moodle-cooperation/moodle-local_downloadcenter.git
