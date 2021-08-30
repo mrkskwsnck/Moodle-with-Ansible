@@ -10,6 +10,12 @@ Collection of Ansible Playbooks and Roles to deploy and maintain Moodle.
 ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE [--extra-var git_force=yes --check]
 ```
 
+**Purge caches**
+
+```bash
+ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag purgecaches [--check]
+```
+
 ## License
 
 > Collection of Ansible Playbooks and Roles to deploy and maintain Moodle.

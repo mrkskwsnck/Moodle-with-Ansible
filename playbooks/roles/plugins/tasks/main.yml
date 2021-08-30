@@ -1,4 +1,5 @@
 ---
+# Remove plug-ins
 - name: "Uninstall plug-ins from {{ moodle_instance | upper() }} instance"
   shell:
     chdir: "{{ moodle_home }}"
@@ -28,6 +29,25 @@
     chdir: "{{ moodle_home }}"
     cmd: "php admin/cli/uninstall_plugins.php --purge-missing --run"
   tags: [uninstall, plugins]
+# End of Remove plug-ins
+
+# Install plug-ins
+- name: "Copy patches temporarily to server"
+  copy:
+    src: patches
+    dest: /tmp
+  tags: [plugins, patch]
+
+# Reverse applied patches for git update not to fail. However, don′t force it—
+# for a clean deployment′s sake!
+# See https://stackoverflow.com/q/48167884/3375584
+- name: "Reverse patches"
+  shell:
+    chdir: "{{ moodle_home }}/{{ item.dest }}"
+    cmd: "git apply --reverse /tmp/patches/{{ item.name }}/* || echo Already reversed"
+  when: (item.apply_patches is defined) and item.apply_patches
+  with_items: "{{ moodle_plugins }}"
+  tags: [plugins, patch]
 
 - name: "Check out ALL THE Moodle plug-ins for {{ moodle_instance | upper() }} instance"
   git:
@@ -41,3 +61,26 @@
   when: item.state is not defined or item.state == 'present'
   with_items: "{{ moodle_plugins }}"
   tags: checkout
+
+- name: "Apply patches"
+  shell:
+    chdir: "{{ moodle_home }}/{{ item.dest }}"
+    cmd: "git apply /tmp/patches/{{ item.name }}/*"
+  when: (item.apply_patches is defined) and item.apply_patches
+  with_items: "{{ moodle_plugins }}"
+  tags: [plugins, patch]
+
+- name: "Delete patches from server"
+  file:
+    dest: /tmp/patches
+    state: absent
+  tags: [plugins, patch]
+
+- name: "Copy supplemental files"
+  copy:
+    src: "{{ item.name }}/"
+    dest: "{{ moodle_home }}/{{ item.dest }}"
+  when: (item.copy_files is defined) and item.copy_files
+  with_items: "{{ moodle_plugins }}"
+  tags: [plugins, files]
+# End of Install plug-ins
