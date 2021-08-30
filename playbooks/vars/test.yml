@@ -195,9 +195,17 @@ moodle_plugins:
   - repo: https://github.com/academic-moodle-cooperation/moodle-local_downloadcenter.git
     version: v3.9.1
     dest: "local/downloadcenter"
-  # - repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
-  #   version: v0.18.0
-  #   dest: "local/learning_analytics"
+  - name: local_learning_analytics
+    repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
+    version: v0.18.0
+    dest: "local/learning_analytics"
+    state: present
+    apply_patches: yes
   - repo: https://github.com/moodleuulm/moodle-local_navbarplus.git
     version: v3.9-r3
     dest: "local/navbarplus"
+  - name: local_staticpage
+    repo: https://github.com/moodleuulm/moodle-local_staticpage.git
+    version: v3.9-r3
+    dest: "local/staticpage"
+    state: present

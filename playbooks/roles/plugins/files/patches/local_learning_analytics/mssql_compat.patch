@@ -1,0 +1,47 @@
+diff --git a/reports/activities/classes/query_helper.php b/reports/activities/classes/query_helper.php
+index 5d2165c..5921c15 100644
+--- a/reports/activities/classes/query_helper.php
++++ b/reports/activities/classes/query_helper.php
+@@ -76,7 +76,7 @@ SQL;
+         $oneweekago = $date->getTimestamp();
+ 
+         $query = <<<SQL
+-        SELECT
++        SELECT TOP 3
+             cm.id AS cmid,
+             m.name as modname,
+             COUNT(*) AS hits
+@@ -94,7 +94,6 @@ SQL;
+         GROUP BY cm.id, m.name
+         HAVING count(*) >= ?
+         ORDER BY hits DESC
+-        LIMIT 3
+ SQL;
+ 
+         return $DB->get_records_sql($query, [$courseid, $oneweekago, max(1, $privacythreshold)]);
+diff --git a/reports/coursedashboard/classes/query_helper.php b/reports/coursedashboard/classes/query_helper.php
+index c82ef0b..3d588a4 100644
+--- a/reports/coursedashboard/classes/query_helper.php
++++ b/reports/coursedashboard/classes/query_helper.php
+@@ -45,7 +45,7 @@ class query_helper {
+         COUNT(*) clicks
+         FROM {logstore_lanalytics_log} l
+         WHERE l.courseid = ?
+-        GROUP BY week
++        GROUP BY (FLOOR((l.timecreated - {$mondaytimestamp}) / (7 * 60 * 60 * 24)) + 1)
+         ORDER BY week;
+ SQL;
+ 
+diff --git a/reports/learners/classes/query_helper.php b/reports/learners/classes/query_helper.php
+index 757177c..fd0fad7 100644
+--- a/reports/learners/classes/query_helper.php
++++ b/reports/learners/classes/query_helper.php
+@@ -178,7 +178,7 @@ SQL;
+             ON e.id = ue.enrolid
+         WHERE u.deleted = 0
+             AND e.courseid = ?
+-        GROUP BY time
++        GROUP BY CASE WHEN ue.timestart < {$timestamp} THEN 0 ELSE 1 END
+         ORDER BY time;
+ SQL;
+ 

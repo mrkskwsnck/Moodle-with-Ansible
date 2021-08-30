@@ -57,7 +57,7 @@
     dest: "{{ moodle_home }}/{{ item.dest }}"
     track_submodules: "{{ item.track_submodules | default('no') }}"
     update: yes
-    force: no
+    force: "{{ git_force | default('no') }}"
   when: item.state is not defined or item.state == 'present'
   with_items: "{{ moodle_plugins }}"
   tags: checkout
