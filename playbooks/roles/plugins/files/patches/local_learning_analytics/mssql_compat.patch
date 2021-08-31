@@ -33,9 +33,18 @@ index c82ef0b..3d588a4 100644
  SQL;
  
 diff --git a/reports/learners/classes/query_helper.php b/reports/learners/classes/query_helper.php
-index 757177c..fd0fad7 100644
+index 757177c..53f3224 100644
 --- a/reports/learners/classes/query_helper.php
 +++ b/reports/learners/classes/query_helper.php
+@@ -116,7 +116,7 @@ SQL;
+                 AND e.courseid = ?
+                 AND co.startdate <> 0
+                 AND co.visible = 1
+-            GROUP BY co.{$groupbychoice}, {$casevalue}
++            GROUP BY co.{$groupbychoice}, {$coursename}, {$casevalue}, co.startdate
+             HAVING COUNT(*) > ? AND {$casevalue} <> 0
+             ORDER BY users DESC;
+ SQL;
 @@ -178,7 +178,7 @@ SQL;
              ON e.id = ue.enrolid
          WHERE u.deleted = 0
@@ -43,5 +52,40 @@ index 757177c..fd0fad7 100644
 -        GROUP BY time
 +        GROUP BY CASE WHEN ue.timestart < {$timestamp} THEN 0 ELSE 1 END
          ORDER BY time;
+ SQL;
+ 
+diff --git a/reports/quiz_assign/classes/query_helper.php b/reports/quiz_assign/classes/query_helper.php
+index b921f42..daab96d 100644
+--- a/reports/quiz_assign/classes/query_helper.php
++++ b/reports/quiz_assign/classes/query_helper.php
+@@ -55,7 +55,7 @@ class query_helper {
+         WHERE gi.courseid = ?
+             AND gi.itemtype = 'mod'
+             AND gi.itemmodule = 'quiz'
+-        GROUP BY q.id
++        GROUP BY q.id, q.sumgrades
+ SQL;
+ 
+         return $DB->get_records_sql($query, [$courseid]);
+diff --git a/reports/weekheatmap/classes/query_helper.php b/reports/weekheatmap/classes/query_helper.php
+index e118f5d..a4ec983 100644
+--- a/reports/weekheatmap/classes/query_helper.php
++++ b/reports/weekheatmap/classes/query_helper.php
+@@ -43,6 +43,8 @@ class query_helper {
+             $date = new DateTime();        
+             $timezone = $date->getTimezone()->getName();
+             $weekstatement = "TO_CHAR(TO_TIMESTAMP(l.timecreated) at time zone '".$timezone."', 'D-HH24')";
++        } elseif ($CFG->dbtype === 'sqlsrv') {
++            $weekstatement = "CONCAT(DATEPART(weekday, DATEADD(SECOND, l.timecreated, '1970-01-01')) - 1, '-', DATEPART(hour, DATEADD(SECOND, l.timecreated, '1970-01-01')))";
+         }
+ 
+         // MySQL returns points where 0-00 => Sun,0-1am; 0-01 => Sun,1-2am; ...
+@@ -53,7 +55,7 @@ class query_helper {
+             COUNT(1) AS value
+         FROM {logstore_lanalytics_log} AS l
+             WHERE l.courseid = ?
+-        GROUP BY heatpoint
++        GROUP BY {$weekstatement}
+         ORDER BY heatpoint
  SQL;
  
