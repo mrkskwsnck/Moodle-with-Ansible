@@ -45,7 +45,7 @@ moodle_plugins:
     dest: "mod/checkmark"
   - name: mod_choicegroup
     repo: https://github.com/ndunand/moodle-mod_choicegroup.git
-    version: 2021080500
+    version: 2021083100
     dest: "mod/choicegroup"
     state: present
   - repo: https://github.com/gbateson/moodle-mod_hotpot
