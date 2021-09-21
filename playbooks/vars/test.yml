@@ -3,7 +3,7 @@
 
 document_root: "/var/www/html"
 moodle_instance: test
-moodle_version: v3.9.9
+moodle_version: v3.9.10
 moodle_folder_name: "{{ moodle_instance }}"
 moodle_home: "{{ document_root }}/{{ moodle_folder_name }}"
 
@@ -108,9 +108,11 @@ moodle_plugins:
     version: 2021081800
     dest: "question/type/matrix"
     state: present
-  - repo: https://github.com/marcusgreen/moodle-qtype_wordselect.git
-    version: v2.46
+  - name: qtype_wordselect
+    repo: https://github.com/marcusgreen/moodle-qtype_wordselect.git
+    version: v2.47
     dest: "question/type/wordselect"
+    state: present
 
   # Question import/export formats
   - repo: https://github.com/gbateson/moodle-qformat_hotpot.git
@@ -164,15 +166,19 @@ moodle_plugins:
   - repo: https://github.com/james-cnz/moodle-format_multitopic.git
     version: v2.1.2
     dest: "course/format/multitopic"
-  - repo: https://github.com/WisdmLabs/moodle-format_remuiformat.git
-    version: v1.1.0
+  - name: format_remuiformat
+    repo: https://github.com/WisdmLabs/moodle-format_remuiformat.git
+    version: v1.1.1
     dest: "course/format/remuiformat"
+    state: present
   - repo: https://github.com/willianmano/moodle-format_timeline.git
     version: MOODLE_39_STABLE
     dest: "course/format/timeline"
-  - repo: https://github.com/JotaDF/moodle-format_trail.git
+  - name: format_trail
+    repo: https://github.com/JotaDF/moodle-format_trail.git
     version: main
     dest: "course/format/trail"
+    state: present
 
   # Reports
   - repo: https://github.com/thepurpleblob/moodle-report_assign.git
@@ -185,7 +191,7 @@ moodle_plugins:
   # Themes
   - name: theme_boost_campus
     repo: https://github.com/moodleuulm/moodle-theme_boost_campus.git
-    version: v3.9-r11
+    version: v3.9-r12
     dest: "theme/boost_campus"
     state: present
     apply_patches: yes
