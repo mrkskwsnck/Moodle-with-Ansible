@@ -4,10 +4,30 @@ Collection of Ansible Playbooks and Roles to deploy and maintain Moodle.
 
 # Cheatsheet
 
+**Toggle maintenance mode**
+
+Turn maintenance mode on
+
+```bash
+ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceon [--check]  # Maintenance on
+```
+
+Turn maintenance mode off
+
+```bash
+ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceoff [--check]  # Maintenance off
+```
+
+**Kill all Moodle sessions**
+
+```bash
+ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag killallsessions [--check]
+```
+
 **Deploy Moodle**
 
 ```bash
-ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE [--extra-var git_force=yes --check]
+ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --skip-tags [maintenanceon,maintenanceoff] [--extra-var git_force=yes --check]
 ```
 
 **Purge caches**
