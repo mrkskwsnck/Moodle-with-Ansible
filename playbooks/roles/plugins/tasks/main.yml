@@ -60,7 +60,7 @@
     force: "{{ git_force | default('no') }}"
   when: item.state is not defined or item.state == 'present'
   with_items: "{{ moodle_plugins }}"
-  tags: checkout
+  tags: [plugins, checkout]
 
 - name: "Apply patches"
   shell:

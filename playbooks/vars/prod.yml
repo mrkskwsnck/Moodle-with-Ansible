@@ -35,7 +35,10 @@ moodle_plugins:
     repo: https://github.com/blindsidenetworks/moodle-mod_bigbluebuttonbn.git
     version: v2.4.4
     dest: "mod/bigbluebuttonbn"
-    state: present
+  - name: mod_board
+    repo: https://github.com/brickfield/moodle-mod_board.git
+    version: 1.39.05
+    dest: "mod/board"
   - repo: https://github.com/davosmith/moodle-checklist.git
     version: 3.9.0.2
     dest: "mod/checklist"
@@ -43,37 +46,51 @@ moodle_plugins:
     repo: https://github.com/ndunand/moodle-mod_choicegroup.git
     version: 2021083100
     dest: "mod/choicegroup"
-    state: present
   - name: mod_debate
     repo: https://github.com/safatshahin-dev/moodle-mod_debate.git
     version: main
     dest: "mod/debate"
-    state: present
   - name: mod_hotpot
     repo: https://github.com/gbateson/moodle-mod_hotpot
     version: 2020-06-05-(44)
     dest: "mod/hotpot"
-    state: present
   - name: mod_moodleoverflow
     repo: https://github.com/learnweb/moodle-mod_moodleoverflow.git
     version: v3.11-r2
     dest: "mod/moodleoverflow"
-    state: present
+  - name: mod_organizer
+    repo: https://github.com/academic-moodle-cooperation/moodle-mod_organizer.git
+    version: v3.9.2
+    dest: "mod/organizer"
   - name: mod_pdfannotator
     repo: https://github.com/rwthmoodle/moodle-mod_pdfannotator.git
     version: v1.4.7.2_Moodle3.10
     dest: "mod/pdfannotator"
-    state: present
   - name: mod_poster
     repo: https://github.com/mudrd8mz/moodle-mod_poster.git
     version: 6.0.1
     dest: "mod/poster"
-    state: present
+  - repo: https://github.com/academic-moodle-cooperation/moodle-mod_publication.git
+    version: v3.9.0
+    dest: "mod/publication"
   - name: mod_questionnaire
     repo: https://github.com/PoetOS/moodle-mod_questionnaire.git
     version: 3.10.1
     dest: "mod/questionnaire"
-    state: present
+  - name: mod_reader
+    repo: https://github.com/gbateson/moodle-mod_reader.git
+    version: 2021-09-14-(35)
+    dest: "mod/reader"
+  - name: mod_realtimequiz
+    repo: https://github.com/davosmith/moodle-realtimequiz.git
+    version: master
+    dest: "mod/realtimequiz"
+
+  # Quiz / Reports
+  - name: quiz_archive
+    repo: https://github.com/bfh/moodle-quiz_archive.git
+    version: v3.11-r1
+    dest: "mod/quiz/report/archive"
   
   # Blocks
   - repo: https://github.com/davosmith/moodle-block_checklist.git
@@ -86,31 +103,99 @@ moodle_plugins:
     repo: https://github.com/DigiDago/moodle-block_course_modulenavigation.git
     version: v4.4
     dest: "blocks/course_modulenavigation"
-    state: present
   - name: block_filtered_course_list
     repo: https://github.com/CLAMP-IT/moodle-blocks_filtered_course_list.git
     version: v4.4.2
     dest: "blocks/filtered_course_list"
-    state: present
   - name: block_panopto
     repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
     version: 2021081600
     dest: "blocks/panopto"
-    state: present
 
+  # Question types
+  - name: qtype_combined
+    repo: https://github.com/moodleou/moodle-qtype_combined.git
+    version: v2.1
+    dest: "question/type/combined"
+  - name: qtype_essayautograde
+    repo: https://github.com/gbateson/moodle-qtype_essayautograde.git
+    version: 2021-09-10-(11)
+    dest: "question/type/essayautograde"
+  - name: qtype_formulas
+    repo: https://github.com/dbauer-ets/moodle-qtype_formulas.git
+    version: MOODLE_39_STABLE
+    dest: "question/type/formulas"
+  - name: qtype_geogebra
+    repo: https://github.com/mebis-lp/moodle-qtype_geogebra.git
+    version: 1.11.1
+    dest: "question/type/geogebra"
+  - name: qtype_matrix
+    repo: https://github.com/ndunand/moodle-qtype_matrix.git
+    version: 2021081800
+    dest: "question/type/matrix"
+  - name: qtype_multinumerical
+    repo: https://github.com/ndunand/moodle-qtype_multinumerical.git
+    version: 2018050801
+    dest: "question/type/multinumerical"
+  - name: qtype_ordering
+    repo: https://github.com/gbateson/moodle-qtype_ordering.git
+    version: 2021-09-14-(04)
+    dest: "question/type/ordering"
+  - name: qtype_pmatch
+    repo: https://github.com/moodleou/moodle-qtype_pmatch.git
+    version: v3.1
+    dest: "question/type/pmatch"
+  - name: qtype_shortmath
+    repo: https://github.com/KQMATH/moodle-qtype_shortmath.git
+    version: v1.0.1
+    dest: "question/type/shortmath"
+  - name: qtype_varnumeric
+    repo: https://github.com/moodleou/moodle-qtype_varnumeric.git
+    version: v1.9
+    dest: "question/type/varnumeric"
+  - name: qtype_varnumericset
+    repo: https://github.com/moodleou/moodle-qtype_varnumericset.git
+    version: v2.0
+    dest: "question/type/varnumericset"
+  - name: qtype_varnumunit
+    repo: https://github.com/moodleou/moodle-qtype_varnumunit.git
+    version: v1.7
+    dest: "question/type/varnumunit"
+  - name: qtype_wordselect
+    repo: https://github.com/marcusgreen/moodle-qtype_wordselect.git
+    version: v2.47
+    dest: "question/type/wordselect"
+
+  # Question behaviours
+  - name: qbehaviour_adaptivemultipart
+    repo: https://github.com/maths/moodle-qbehaviour_adaptivemultipart.git
+    version: v4.3.7
+    dest: "question/behaviour/adaptivemultipart"
+  
   # Text filters
+  - name: filter_embedquestion
+    repo: https://github.com/moodleou/moodle-filter_embedquestion.git
+    version: v2.1
+    dest: "filter/embedquestion"
   - name: filter_synhi
     repo: https://github.com/gjb2048/moodle-filter_synhi.git
     version: V3.7.1.2
     dest: "filter/synhi"
-    state: present
+
+  # Atto HTML editor / Atto plugins
+  - name: atto_c4l
+    repo: https://github.com/rogersegu/moodle-atto_c4l.git
+    version: main
+    dest: "lib/editor/atto/plugins/c4l"
+  - repo: https://github.com/ndunand/moodle-atto_corrections.git
+    version: 2021070700
+    dest: "lib/editor/atto/plugins/corrections"
 
   # Log store manager / Log stores
   - name: logstore_lanalytics
     repo: https://github.com/rwthanalytics/moodle-logstore_lanalytics.git
     version: v0.8.0
     dest: "admin/tool/log/store/lanalytics"
-    state: present
 
   # Course formats
   - repo: https://gitlab.com/drlikm/format_etask.git
@@ -123,21 +208,28 @@ moodle_plugins:
     repo: https://github.com/DigiDago/moodle-format_softcourse.git
     version: 3.11rc1.2
     dest: "course/format/softcourse"
-    state: present
+
+  # Reports
+  - name: report_embedquestion
+    repo: https://github.com/moodleou/moodle-report_embedquestion.git
+    version: v1.5
+    dest: "report/embedquestion"
+  - name: report_questionnairestats
+    repo: https://github.com/dired-ufla/questionnairestats.git
+    version: master
+    dest: "report/questionnairestats"
 
   # Cache stores
   - name: cachestore_redissentinel
     repo: https://github.com/catalyst/moodle-cachestore_redissentinel.git
     version: master
     dest: "cache/stores/redissentinel"
-    state: present
 
   # Themes
   - name: theme_boost_campus
     repo: https://github.com/moodleuulm/moodle-theme_boost_campus.git
     version: v3.9-r12
     dest: "theme/boost_campus"
-    state: present
     apply_patches: yes
     copy_files: yes
 
@@ -146,15 +238,12 @@ moodle_plugins:
     repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
     version: v0.18.0
     dest: "local/learning_analytics"
-    state: present
     apply_patches: yes
   - name: local_navbarplus
     repo: https://github.com/moodleuulm/moodle-local_navbarplus.git
     version: v3.9-r3
     dest: "local/navbarplus"
-    state: present
   - name: local_staticpage
     repo: https://github.com/moodleuulm/moodle-local_staticpage.git
     version: v3.9-r3
     dest: "local/staticpage"
-    state: present
