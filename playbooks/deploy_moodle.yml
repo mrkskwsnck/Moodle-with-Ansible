@@ -12,6 +12,12 @@
       become_user: "{{ moodle_user }}"
       tags: [ maintenance, maintenanceon ]
 
+- hosts: webservers
+  gather_facts: no
+
+  roles:
+    - php
+
 - hosts: all
   gather_facts: no
 

@@ -1,0 +1,15 @@
+---
+# Playbook to restart the keepalive daemon
+
+- hosts: rediscluster
+  gather_facts: yes
+
+  tasks:
+    - name: Naming the primary
+      debug:
+        msg: "Host: {{ inventory_hostname }} is primary with IP address {{ ansible_eth0['ipv4_secondaries'][0].address }}"
+      when: ansible_eth0['ipv4_secondaries'] is defined
+      tags: whichisprimary
+
+    - name: Restart keepalived
+      service: name=keepalived state=restarted
