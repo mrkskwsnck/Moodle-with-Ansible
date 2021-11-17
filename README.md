@@ -46,6 +46,19 @@ ansible-playbook --inventory inventory/$FARM.ini playbooks/restart_keepalived.ym
 ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag purgecaches [--check]
 ```
 
+### Decrypt multiline vault
+
+Password e.g. _TrustNo1_
+
+```bash
+echo '`$ANSIBLE_VAULT;1.1;AES256
+61633033646562336131346336366338653230646161383765333839623934613236373033666537
+3933633437303566623364626365636432356263396565320a376664636537616539303961346330
+36613464643938616637323931313632316239666466633962663961383631373433623539633263
+3433356665336363630a343537663132646365366535613438613437653231666633656561393930
+3930`' | ansible-vault decrypt
+```
+
 ### Copy log files from remote servers
 
 #### Nginx
