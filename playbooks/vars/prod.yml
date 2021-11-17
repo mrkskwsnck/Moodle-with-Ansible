@@ -3,7 +3,7 @@
 
 document_root: "/var/www/html"
 moodle_instance: prod
-moodle_version: v3.9.10
+moodle_version: v3.9.11
 moodle_folder_name: moodle
 moodle_home: "{{ document_root }}/{{ moodle_folder_name }}"
 
@@ -37,7 +37,7 @@ moodle_plugins:
     dest: "mod/bigbluebuttonbn"
   - name: mod_board
     repo: https://github.com/brickfield/moodle-mod_board.git
-    version: 1.39.05
+    version: 1.39.06
     dest: "mod/board"
   - repo: https://github.com/davosmith/moodle-checklist.git
     version: 3.9.0.2
@@ -119,7 +119,7 @@ moodle_plugins:
     dest: "question/type/combined"
   - name: qtype_essayautograde
     repo: https://github.com/gbateson/moodle-qtype_essayautograde.git
-    version: 2021-09-10-(11)
+    version: 2021-10-19-(12)
     dest: "question/type/essayautograde"
   - name: qtype_formulas
     repo: https://github.com/dbauer-ets/moodle-qtype_formulas.git
@@ -127,7 +127,7 @@ moodle_plugins:
     dest: "question/type/formulas"
   - name: qtype_geogebra
     repo: https://github.com/mebis-lp/moodle-qtype_geogebra.git
-    version: 1.11.1
+    version: 1.11.2
     dest: "question/type/geogebra"
   - name: qtype_matrix
     repo: https://github.com/ndunand/moodle-qtype_matrix.git
