@@ -6,10 +6,22 @@ Collection of Ansible Playbooks and Roles to deploy and maintain Moodle.
 
 > One-liner for daily tasks.
 
-As a precondition, one must set the variables `$HOSTS` and `$INSTANCE` respectively, to address the desired Moodle system.
+As a precondition, one must set both environment variables `$INVENTORY` and `$VARS`, to address the desired Moodle system.
+For this a copy of the `.env-example` file will suite you, …
 
 ```bash
-HOSTS=<FILE_BASENAME>; INSTANCE=<FILE_BASENAME>
+INVENTORY=inventory/hosts.example.ini
+VARS=./playbooks/vars/instance.example.yml
+```
+
+… where one need to set both paths to the inventory and the variables file, respectively.
+
+```bash
+# Set environment variables
+eval $(cat .env-test)
+
+# Check environment variables
+echo $INVENTORY $EXTRA_VARS $VAULT_PASSWORD_FILE
 ```
 
 Where the basename of you Moodle′s inventory and instance files is subject to ones liking.
@@ -19,25 +31,25 @@ Where the basename of you Moodle′s inventory and instance files is subject to 
 Turn maintenance mode on
 
 ```bash
-ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceon [--check]  # Maintenance on
+ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag maintenanceon [--check]  # Maintenance on
 ```
 
 Turn maintenance mode off
 
 ```bash
-ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceoff [--check]  # Maintenance off
+ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag maintenanceoff [--check]  # Maintenance off
 ```
 
 ### Kill all Moodle sessions
 
 ```bash
-ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag killallsessions [--check]
+ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag killallsessions [--check]
 ```
 
 ### Deploy Moodle
 
 ```bash
-ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE [--skip-tags maintenanceon,maintenanceoff,phperrorloggingoff] [--extra-var git_force=yes --check]
+ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE [--skip-tags maintenanceon,maintenanceoff,phperrorloggingoff] [--extra-var git_force=yes --check]
 ```
 
 **ATTENTION:** With `--check` also `--extra-var git_force=yes` is needed, so it would not fail during check. However, do not use that extra var without check!
@@ -58,13 +70,13 @@ echo '`$ANSIBLE_VAULT;1.1;AES256
 ### Restart keepalived
 
 ```bash
-ansible-playbook --inventory inventory/$HOSTS.ini playbooks/restart_keepalived.yml [--tag whichisprimary] [--check]
+ansible-playbook --inventory $INVENTORY playbooks/restart_keepalived.yml [--tag whichisprimary] [--check]
 ```
 
 ### Purge caches
 
 ```bash
-ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag purgecaches [--check]
+ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag purgecaches [--check]
 ```
 
 ### Copy log files from remote servers
@@ -74,31 +86,31 @@ ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --
 Access log
 
 ```bash
-ansible --inventory inventory/$HOSTS.ini webservers --module-name fetch --args "src=/var/log/nginx/access.log dest=fetched/$HOSTS"
+ansible --inventory $INVENTORY webservers --module-name fetch --args "src=/var/log/nginx/access.log dest=fetched/"
 ```
 
 Error log
 
 ```bash
-ansible --inventory inventory/$HOSTS.ini webservers --module-name fetch --args "src=/var/log/nginx/error.log dest=fetched/$HOSTS"
+ansible --inventory $INVENTORY webservers --module-name fetch --args "src=/var/log/nginx/error.log dest=fetched/"
 ```
 
 #### PHP FastCGI Process Manager (FPM)
 
 ```bash
-ansible --inventory inventory/$HOSTS.ini webservers --module-name fetch --args "src=/var/log/php7.3-fpm.log dest=fetched/$HOSTS"
+ansible --inventory $INVENTORY webservers --module-name fetch --args "src=/var/log/php7.3-fpm.log dest=fetched/"
 ```
 
 #### Redis
 
 ```bash
-ansible --inventory inventory/$HOSTS.ini rediscluster --module-name fetch --args "src=/etc/redis/redis.conf dest=fetched/$HOSTS"
+ansible --inventory $INVENTORY rediscluster --module-name fetch --args "src=/etc/redis/redis.conf dest=fetched/"
 ```
 
 #### Sentinel
 
 ```bash
-ansible --inventory inventory/$HOSTS.ini rediscluster --module-name fetch --args "src=/etc/redis/sentinel.conf dest=fetched/$HOSTS"
+ansible --inventory $INVENTORY rediscluster --module-name fetch --args "src=/etc/redis/sentinel.conf dest=fetched/"
 ```
 
 ## License

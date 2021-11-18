@@ -127,11 +127,11 @@ moodle_plugins:
     repo: https://github.com/CLAMP-IT/moodle-blocks_filtered_course_list.git
     version: v4.4.2
     dest: "blocks/filtered_course_list"
-    # Because any SSH connection to the outworld is not allowed by the web proxy :-(
-  - name: block_forthem
-    repo: "https://{{ gitlabcom_username | urlencode }}:{{ gitlabcom_password | urlencode }}@gitlab.com/Claud10R/moodle-forthem.git"
-    version: v2021100101
-    dest: blocks/forthem
+  # # Because any SSH connection to the outworld is not allowed by the web proxy :-(
+  # - name: block_forthem
+  #   repo: "https://{{ gitlabcom_username | urlencode }}:{{ gitlabcom_password | urlencode }}@gitlab.com/Claud10R/moodle-forthem.git"
+  #   version: v2021100101
+  #   dest: blocks/forthem
   - name: block_panopto
     repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
     version: 2021081600
@@ -245,6 +245,10 @@ moodle_plugins:
     repo: https://github.com/ndunand/moodle-enrol_attributes.git
     version: 2021100800
     dest: "enrol/attributes"
+  - name: enrol_coursecompleted
+    repo: https://github.com/ewallah/moodle-enrol_coursecompleted.git
+    version: v3.9.1
+    dest: "enrol/coursecompleted"
 
   # Authentication methods
   - repo: https://github.com/catalyst/moodle-auth_saml2.git
@@ -263,7 +267,12 @@ moodle_plugins:
     dest: "admin/tool/log/store/lanalytics"
 
   # Availability restrictions
-  - repo: https://github.com/moodleuulm/moodle-availability_password.git
+  - name: availability_coursecompleted
+    repo: https://github.com/ewallah/moodle-availability_coursecompleted.git
+    version: v3.9.0
+    dest: "availability/condition/coursecompleted"
+  - name: availability_password
+    repo: https://github.com/moodleuulm/moodle-availability_password.git
     version: v3.9-r3
     dest: "availability/condition/password"
 
@@ -281,6 +290,10 @@ moodle_plugins:
     repo: https://github.com/james-cnz/moodle-format_multitopic.git
     version: v2.1.3
     dest: "course/format/multitopic"
+  - name: format_redirected
+    repo: https://github.com/juacas/moodle-format_redirected.git
+    version: v0.0.5c
+    dest: "course/format/redirected"
   - name: format_remuiformat
     repo: https://github.com/WisdmLabs/moodle-format_remuiformat.git
     version: v1.1.1
