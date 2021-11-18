@@ -1,4 +1,10 @@
 ---
+- name: "Delete patch artifacts from server"
+  file:
+    dest: /tmp/patches
+    state: absent
+  tags: [moodle, patch]
+
 - name: "Copy patches temporarily to server"
   copy:
     src: patches
@@ -30,14 +36,30 @@
     dest: "{{ moodle_home }}/config.php"
   tags: config
 
+- name: Turn emergency PHP error logging on
+  lineinfile:
+    path: "{{ moodle_home }}/config.php"
+    regexp: "Begin of emergency PHP ERROR LOGGING"
+    line: "/* Begin of emergency PHP ERROR LOGGING */"
+  become_user: "{{ moodle_user }}"
+  tags: [ config, maintenance, phperrorloggingon ]
+
+- name: Turn emergency PHP error logging off
+  lineinfile:
+    path: "{{ moodle_home }}/config.php"
+    regexp: "Begin of emergency PHP ERROR LOGGING"
+    line: "/* Begin of emergency PHP ERROR LOGGING"
+  become_user: "{{ moodle_user }}"
+  tags: [ config, maintenance, phperrorloggingoff ]
+
 - name: "Apply patches"
   shell:
     chdir: "{{ moodle_home }}"
     cmd: git apply /tmp/patches/*
   tags: patch
 
-- name: "Delete patches from server"
+- name: "Delete patches from server (afterwards)"
   file:
     dest: /tmp/patches
     state: absent
-  tags: patch
+  tags: [moodle, patch]

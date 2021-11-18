@@ -1,0 +1,8 @@
+---
+- name: Adjust Maximum amount of memory a script may consume
+  lineinfile:
+    dest: "/etc/php/7.3/fpm/pool.d/www.conf"
+    regexp: "^php_admin_value\\[memory_limit\\]"
+    line: "php_admin_value[memory_limit] = {{ php_admin_value.memory_limit }}"
+  notify: Restart php-fpm
+  tags: php

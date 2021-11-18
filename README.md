@@ -4,49 +4,45 @@ Collection of Ansible Playbooks and Roles to deploy and maintain Moodle.
 
 ## Cheatsheet
 
-One-liner for daily tasks.
+> One-liner for daily tasks.
+
+As a precondition, one must set the variables `$HOSTS` and `$INSTANCE` respectively, to address the desired Moodle system.
+
+```bash
+HOSTS=<FILE_BASENAME>; INSTANCE=<FILE_BASENAME>
+```
+
+Where the basename of you Moodle′s inventory and instance files is subject to ones liking.
 
 ### Toggle maintenance mode
 
 Turn maintenance mode on
 
 ```bash
-ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceon [--check]  # Maintenance on
+ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceon [--check]  # Maintenance on
 ```
 
 Turn maintenance mode off
 
 ```bash
-ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceoff [--check]  # Maintenance off
+ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag maintenanceoff [--check]  # Maintenance off
 ```
 
 ### Kill all Moodle sessions
 
 ```bash
-ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag killallsessions [--check]
+ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag killallsessions [--check]
 ```
 
 ### Deploy Moodle
 
 ```bash
-ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE [--skip-tags maintenanceon,maintenanceoff] [--extra-var git_force=yes --check]
+ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE [--skip-tags maintenanceon,maintenanceoff,phperrorloggingoff] [--extra-var git_force=yes --check]
 ```
 
 **ATTENTION:** With `--check` also `--extra-var git_force=yes` is needed, so it would not fail during check. However, do not use that extra var without check!
 
-### Restart keepalived
-
-```bash
-ansible-playbook --inventory inventory/$FARM.ini playbooks/restart_keepalived.yml [--tag whichisprimary] [--check]
-```
-
-### Purge caches
-
-```bash
-ansible-playbook --inventory inventory/$FARM.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag purgecaches [--check]
-```
-
-### Decrypt multiline vault
+#### Decrypt multiline vault
 
 Password e.g. _TrustNo1_
 
@@ -59,6 +55,18 @@ echo '`$ANSIBLE_VAULT;1.1;AES256
 3930`' | ansible-vault decrypt
 ```
 
+### Restart keepalived
+
+```bash
+ansible-playbook --inventory inventory/$HOSTS.ini playbooks/restart_keepalived.yml [--tag whichisprimary] [--check]
+```
+
+### Purge caches
+
+```bash
+ansible-playbook --inventory inventory/$HOSTS.ini playbooks/deploy_moodle.yml --extra-vars @playbooks/vars/$INSTANCE.yml --vault-password-file $HOME/.ansible/vault-passwords/moodle_$INSTANCE --tag purgecaches [--check]
+```
+
 ### Copy log files from remote servers
 
 #### Nginx
@@ -66,31 +74,31 @@ echo '`$ANSIBLE_VAULT;1.1;AES256
 Access log
 
 ```bash
-ansible --inventory inventory/$FARM.ini webservers --module-name fetch --args "src=/var/log/nginx/access.log dest=fetched/$FARM"
+ansible --inventory inventory/$HOSTS.ini webservers --module-name fetch --args "src=/var/log/nginx/access.log dest=fetched/$HOSTS"
 ```
 
 Error log
 
 ```bash
-ansible --inventory inventory/$FARM.ini webservers --module-name fetch --args "src=/var/log/nginx/error.log dest=fetched/$FARM"
+ansible --inventory inventory/$HOSTS.ini webservers --module-name fetch --args "src=/var/log/nginx/error.log dest=fetched/$HOSTS"
 ```
 
 #### PHP FastCGI Process Manager (FPM)
 
 ```bash
-ansible --inventory inventory/$FARM.ini webservers --module-name fetch --args "src=/var/log/php7.3-fpm.log dest=fetched/$FARM"
+ansible --inventory inventory/$HOSTS.ini webservers --module-name fetch --args "src=/var/log/php7.3-fpm.log dest=fetched/$HOSTS"
 ```
 
 #### Redis
 
 ```bash
-ansible --inventory inventory/$FARM.ini rediscluster --module-name fetch --args "src=/etc/redis/redis.conf dest=fetched/$FARM"
+ansible --inventory inventory/$HOSTS.ini rediscluster --module-name fetch --args "src=/etc/redis/redis.conf dest=fetched/$HOSTS"
 ```
 
 #### Sentinel
 
 ```bash
-ansible --inventory inventory/$FARM.ini rediscluster --module-name fetch --args "src=/etc/redis/sentinel.conf dest=fetched/$FARM"
+ansible --inventory inventory/$HOSTS.ini rediscluster --module-name fetch --args "src=/etc/redis/sentinel.conf dest=fetched/$HOSTS"
 ```
 
 ## License

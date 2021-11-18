@@ -33,6 +33,13 @@ $CFG->keeptempdirectoriesonbackup = true;
 # See https://muras.eu/2020/05/17/Session-locking-in-Moodle-part3/
 $CFG->enable_read_only_sessions = true;
 
+/* Begin of emergency PHP ERROR LOGGING */
+@error_reporting(E_ALL | E_STRICT);
+@ini_set('display_errors', '1');
+$CFG->debug = (E_ALL | E_STRICT);
+$CFG->debugdisplay = 1;
+/* End of emergency PHP ERROR LOGGING */
+
 require_once(__DIR__ . '/lib/setup.php');
 
 // There is no php closing tag in this file,
