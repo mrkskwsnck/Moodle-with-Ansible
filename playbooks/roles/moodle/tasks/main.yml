@@ -36,21 +36,21 @@
     dest: "{{ moodle_home }}/config.php"
   tags: config
 
-- name: Turn emergency PHP error logging on
+- name: Turn PHP emergency error logging on
   lineinfile:
     path: "{{ moodle_home }}/config.php"
-    regexp: "Begin of emergency PHP ERROR LOGGING"
+    regexp: "^/\\* Begin of emergency PHP ERROR LOGGING"
     line: "/* Begin of emergency PHP ERROR LOGGING */"
   become_user: "{{ moodle_user }}"
-  tags: [ config, maintenance, phperrorloggingon ]
+  tags: [ phperrorloggingon ]
 
-- name: Turn emergency PHP error logging off
+- name: Turn PHP emergency error logging off
   lineinfile:
     path: "{{ moodle_home }}/config.php"
-    regexp: "Begin of emergency PHP ERROR LOGGING"
+    regexp: "^/\\* Begin of emergency PHP ERROR LOGGING"
     line: "/* Begin of emergency PHP ERROR LOGGING"
   become_user: "{{ moodle_user }}"
-  tags: [ config, maintenance, phperrorloggingoff ]
+  tags: [ phperrorloggingoff ]
 
 - name: "Apply patches"
   shell:
