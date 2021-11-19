@@ -10,8 +10,9 @@ As a precondition, one must set both environment variables `$INVENTORY` and `$VA
 For this a copy of the `.env-example` file will suite you, …
 
 ```bash
-INVENTORY=inventory/hosts.example.ini
-VARS=./playbooks/vars/instance.example.yml
+INVENTORY=./inventory/hosts.example.ini
+EXTRA_VARS=./playbooks/vars/instance.example.yml
+VAULT_PASSWORD_FILE=~/.ansible/vault-passwords/example
 ```
 
 … where one need to set both paths to the inventory and the variables file, respectively.
