@@ -45,6 +45,16 @@ ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars
 
 Assuming the `config.php` file contains a suitable block. See also [PHP error logs](https://docs.moodle.org/dev/PHP_error_logs)
 
+**Example block**
+
+```php
+/* Begin of emergency PHP ERROR LOGGING */
+
+...
+
+/* End of emergency PHP ERROR LOGGING */
+```
+
 Turn PHP emergency error logging on
 
 ```bash
@@ -66,7 +76,7 @@ ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars
 ### Deploy Moodle
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE [--skip-tags maintenanceon,maintenanceoff,phperrorloggingoff] [--extra-var git_force=yes --check]
+ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE [--skip-tags maintenanceon,killallsessions,phperrorloggingoff] [--extra-var git_force=yes --check]
 ```
 
 **ATTENTION:** With `--check` also `--extra-var git_force=yes` is needed, so it would not fail during check. However, do not use that extra var without check!
