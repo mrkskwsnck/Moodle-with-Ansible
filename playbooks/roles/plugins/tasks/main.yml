@@ -32,6 +32,12 @@
 # End of Remove plug-ins
 
 # Install plug-ins
+- name: "Delete patch artifacts from server"
+  file:
+    dest: /tmp/patches
+    state: absent
+  tags: [plugins, patch]
+
 - name: "Copy patches temporarily to server"
   copy:
     src: patches
@@ -70,7 +76,7 @@
   with_items: "{{ moodle_plugins }}"
   tags: [plugins, patch]
 
-- name: "Delete patches from server"
+- name: "Delete patches from server (afterwards)"
   file:
     dest: /tmp/patches
     state: absent
