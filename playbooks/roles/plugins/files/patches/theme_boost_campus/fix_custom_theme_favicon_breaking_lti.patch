@@ -1,0 +1,24 @@
+diff --git a/classes/output/core_renderer.php b/classes/output/core_renderer.php
+index 6596d86..5fc1d7d 100644
+--- a/classes/output/core_renderer.php
++++ b/classes/output/core_renderer.php
+@@ -103,11 +103,18 @@ class core_renderer extends \core_renderer {
+      */
+     public function favicon() {
+         // MODIFICATION START.
++
++        // Modification by Claudio Ruocco @ Unipa - claudio.ruocco@unipa.it
+         if (!empty($this->page->theme->settings->favicon)) {
+-            return $this->page->theme->setting_file_url('favicon', 'favicon');
++    		$setting_url = $this->page->theme->setting_file_url('favicon', 'favicon');
++    		$start = strpos($setting_url, "/pluginfile.php/");
++    		$actual_url = substr($setting_url, $start);
++    		return new \moodle_url($actual_url);
+         } else {
+             return $this->image_url('favicon', 'theme');
+         }
++        // End Modification
++
+         // MODIFICATION END.
+         // @codingStandardsIgnoreStart
+         /* ORIGINAL START.
