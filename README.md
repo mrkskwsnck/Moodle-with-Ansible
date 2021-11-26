@@ -32,13 +32,13 @@ Where the basename of you Moodle′s inventory and instance files is subject to 
 Turn maintenance mode on
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag maintenanceon [--check]
+ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag maintenanceon [--check]
 ```
 
 Turn maintenance mode off
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag maintenanceoff [--check]
+ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag maintenanceoff [--check]
 ```
 
 ### Toggle PHP emergency error logging
@@ -58,25 +58,25 @@ Assuming the `config.php` file contains a suitable block. See also [PHP error lo
 Turn PHP emergency error logging on
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tags config,phperrorloggingon --skip-tag phperrorloggingoff [--check]
+ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tags config,phperrorloggingon --skip-tag phperrorloggingoff [--check]
 ```
 
 Turn PHP emergency error logging off
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tags config,phperrorloggingoff --skip-tag phperrorloggingon [--check]
+ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tags config,phperrorloggingoff --skip-tag phperrorloggingon [--check]
 ```
 
 ### Kill all Moodle sessions
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag killallsessions [--check]
+ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag killallsessions [--check]
 ```
 
 ### Deploy Moodle
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE [--skip-tags maintenanceon,killallsessions,phperrorloggingoff] [--extra-var git_force=yes --check]
+ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE [--skip-tags maintenanceon,killallsessions,phperrorloggingoff] [--extra-var git_force=yes --check]
 ```
 
 **ATTENTION:** With `--check` also `--extra-var git_force=yes` is needed, so it would not fail during check. However, do not use that extra var without check!
@@ -103,7 +103,7 @@ ansible-playbook --inventory $INVENTORY playbooks/restart_keepalived.yml [--tag 
 ### Purge caches
 
 ```bash
-ansible-playbook --inventory $INVENTORY playbooks/deploy_moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag purgecaches [--check]
+ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tag purgecaches [--check]
 ```
 
 ### Copy log files from remote servers
