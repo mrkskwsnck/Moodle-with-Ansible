@@ -78,7 +78,7 @@ moodle_plugins:
     dest: "mod/organizer"
   - name: mod_pdfannotator
     repo: https://github.com/rwthmoodle/moodle-mod_pdfannotator.git
-    version: v1.4.7.2_Moodle3.10
+    version: v1.4.8
     dest: "mod/pdfannotator"
   - name: mod_poster
     repo: https://github.com/mudrd8mz/moodle-mod_poster.git
@@ -101,12 +101,20 @@ moodle_plugins:
     repo: https://github.com/davosmith/moodle-realtimequiz.git
     version: master
     dest: "mod/realtimequiz"
-  - repo: https://github.com/frankkoch/moodle-mod_studentquiz.git
+  - name: mod_studentquiz
+    repo: https://github.com/frankkoch/moodle-mod_studentquiz.git
     version: v4.5.0
     dest: "mod/studentquiz"
-  - repo: https://github.com/mudrd8mz/moodle-mod_subcourse.git
+  - name: mod_subcourse
+    repo: https://github.com/mudrd8mz/moodle-mod_subcourse.git
     version: v10.1.0
     dest: "mod/subcourse"
+
+  # Assignment / Submission plugins
+  - name: assignsubmission_maharaws
+    repo: https://github.com/catalyst/moodle-assignsubmission_maharaws.git
+    version: main
+    dest: "mod/assign/submission/maharaws"
 
   # Quiz / Reports
   - name: quiz_archive
