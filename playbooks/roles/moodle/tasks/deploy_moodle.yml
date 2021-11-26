@@ -1,0 +1,65 @@
+---
+- name: "Delete patch artifacts from server"
+  file:
+    dest: /tmp/patches
+    state: absent
+  tags: [moodle, patch]
+
+- name: "Copy patches temporarily to server"
+  copy:
+    src: patches
+    dest: /tmp
+  tags: patch
+
+# Reverse applied patches for git update not to fail. However, don′t force it—
+# for a clean deployment′s sake!
+# See https://stackoverflow.com/q/48167884/3375584
+- name: "Reverse Moodle patches"
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: "git apply --reverse /tmp/patches/moodle/*.patch || echo Already reversed"
+  tags: patch
+
+- name: "Check out Moodle {{ moodle_version }} for {{ moodle_instance | upper() }} instance"
+  git:
+    accept_hostkey: yes
+    repo: "{{ moodle_repo }}"
+    version: "{{ moodle_version }}"
+    dest: "{{ moodle_home }}"
+    update: yes
+    force: "{{ git_force | default('no') }}"
+  tags: checkout
+
+- name: "Create configuration file for {{ moodle_instance | upper() }} instance"
+  template:
+    src: config.php.j2
+    dest: "{{ moodle_home }}/config.php"
+  tags: config
+
+- name: Turn PHP emergency error logging on
+  lineinfile:
+    path: "{{ moodle_home }}/config.php"
+    regexp: "^/\\* Begin of emergency PHP ERROR LOGGING"
+    line: "/* Begin of emergency PHP ERROR LOGGING */"
+  become_user: "{{ moodle_user }}"
+  tags: [ phperrorloggingon ]
+
+- name: Turn PHP emergency error logging off
+  lineinfile:
+    path: "{{ moodle_home }}/config.php"
+    regexp: "^/\\* Begin of emergency PHP ERROR LOGGING"
+    line: "/* Begin of emergency PHP ERROR LOGGING"
+  become_user: "{{ moodle_user }}"
+  tags: [ phperrorloggingoff ]
+
+- name: "Apply Moodle patches"
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: git apply /tmp/patches/moodle/*.patch
+  tags: patch
+
+- name: "Delete patches from server (afterwards)"
+  file:
+    dest: /tmp/patches
+    state: absent
+  tags: [moodle, patch]

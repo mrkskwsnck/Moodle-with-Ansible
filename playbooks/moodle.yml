@@ -32,9 +32,7 @@
 
   roles:
     - prerequisites
-    - sessions
     - moodle
-    - plugins
     - securitytxt
 
 - hosts: primary
