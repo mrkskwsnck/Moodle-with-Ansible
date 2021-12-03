@@ -63,3 +63,9 @@
     dest: /tmp/patches
     state: absent
   tags: [moodle, patch]
+
+- name: Download CLI script to reset dashboards
+  get_url:
+    url: https://raw.githubusercontent.com/moodle/moodle/MOODLE_311_STABLE/admin/cli/dashboard_reset.php
+    dest: "{{ moodle_home }}/admin/cli/dashboard_reset.php"
+  tags: patch
