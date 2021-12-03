@@ -68,7 +68,7 @@ index b921f42..daab96d 100644
  
          return $DB->get_records_sql($query, [$courseid]);
 diff --git a/reports/weekheatmap/classes/query_helper.php b/reports/weekheatmap/classes/query_helper.php
-index e118f5d..a4ec983 100644
+index e118f5d..a926b1e 100644
 --- a/reports/weekheatmap/classes/query_helper.php
 +++ b/reports/weekheatmap/classes/query_helper.php
 @@ -43,6 +43,8 @@ class query_helper {
@@ -76,7 +76,7 @@ index e118f5d..a4ec983 100644
              $timezone = $date->getTimezone()->getName();
              $weekstatement = "TO_CHAR(TO_TIMESTAMP(l.timecreated) at time zone '".$timezone."', 'D-HH24')";
 +        } elseif ($CFG->dbtype === 'sqlsrv') {
-+            $weekstatement = "CONCAT(DATEPART(weekday, DATEADD(SECOND, l.timecreated, '1970-01-01')) - 1, '-', DATEPART(hour, DATEADD(SECOND, l.timecreated, '1970-01-01')))";
++            $weekstatement = "CONCAT(DATEPART(weekday, DATEADD(SECOND, l.timecreated, '1970-01-01')) - 1, '-', DATEPART(hour, DATEADD(SECOND, l.timecreated + 3600, '1970-01-01')))";
          }
  
          // MySQL returns points where 0-00 => Sun,0-1am; 0-01 => Sun,1-2am; ...

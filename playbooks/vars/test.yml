@@ -220,7 +220,8 @@ moodle_plugins:
     dest: "question/behaviour/adaptivemultipart"
   
   # Question import/export formats
-  - repo: https://github.com/gbateson/moodle-qformat_hotpot.git
+  - name: qformat_hotpot
+    repo: https://github.com/gbateson/moodle-qformat_hotpot.git
     version: 2019-11-10-(22)
     dest: "question/format/hotpot"
 
@@ -353,7 +354,8 @@ moodle_plugins:
     copy_files: yes
 
   # Local plugins
-  - repo: https://github.com/academic-moodle-cooperation/moodle-local_downloadcenter.git
+  - name: local_downloadcenter
+    repo: https://github.com/academic-moodle-cooperation/moodle-local_downloadcenter.git
     version: v3.9.1
     dest: "local/downloadcenter"
   - name: local_learning_analytics

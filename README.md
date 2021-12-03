@@ -76,7 +76,11 @@ ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTR
 ### Deploy Moodle
 
 ```bash
+# Deploy remotely
 ansible-playbook --inventory $INVENTORY playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE [--skip-tags maintenanceon,killallsessions,phperrorloggingoff] [--extra-var git_force=yes --check]
+
+# Deploy locally (for development purpose)
+ansible-playbook --inventory $INVENTORY --connection local playbooks/moodle.yml --extra-vars @$EXTRA_VARS --vault-password-file $VAULT_PASSWORD_FILE --tags checkout,config,patch [--extra-var git_force=yes --check]
 ```
 
 **ATTENTION:** With `--check` also `--extra-var git_force=yes` is needed, so it would not fail during check. However, do not use that extra var without check!

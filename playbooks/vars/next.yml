@@ -89,7 +89,8 @@ moodle_plugins:
     repo: https://github.com/mudrd8mz/moodle-mod_poster.git
     version: 6.0.1
     dest: "mod/poster"
-  - repo: https://github.com/academic-moodle-cooperation/moodle-mod_publication.git
+  - name: mod_publication
+    repo: https://github.com/academic-moodle-cooperation/moodle-mod_publication.git
     version: v3.11.1
     dest: "mod/publication"
     apply_patches: yes
