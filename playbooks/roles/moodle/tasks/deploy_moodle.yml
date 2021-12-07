@@ -44,14 +44,6 @@
   become_user: "{{ moodle_user }}"
   tags: [ phperrorloggingon ]
 
-- name: Turn PHP emergency error logging off
-  lineinfile:
-    path: "{{ moodle_home }}/config.php"
-    regexp: "^/\\* Begin of emergency PHP ERROR LOGGING"
-    line: "/* Begin of emergency PHP ERROR LOGGING"
-  become_user: "{{ moodle_user }}"
-  tags: [ phperrorloggingoff ]
-
 - name: "Apply Moodle patches"
   shell:
     chdir: "{{ moodle_home }}"

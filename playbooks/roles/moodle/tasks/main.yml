@@ -1,4 +1,36 @@
 ---
+- name: Turn maintenance mode on
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: "/usr/bin/php admin/cli/maintenance.php --enableold"
+  become_user: "{{ moodle_user }}"
+  run_once: True
+  tags: [ maintenance, maintenanceon ]
+
 - import_tasks: handle_sessions.yml
 - import_tasks: deploy_moodle.yml
 - import_tasks: deploy_plugins.yml
+
+- name: "Perform upgrade of Moodle to version {{ moodle_version }} for {{ moodle_instance | upper() }} instance"
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: "/usr/bin/php admin/cli/upgrade.php --lang=en --non-interactive --verbose-settings"
+  become_user: "{{ moodle_user }}"
+  run_once: True
+  tags: [ upgrade ]
+
+- name: Turn PHP emergency error logging off
+  lineinfile:
+    path: "{{ moodle_home }}/config.php"
+    regexp: "^/\\* Begin of emergency PHP ERROR LOGGING"
+    line: "/* Begin of emergency PHP ERROR LOGGING"
+  become_user: "{{ moodle_user }}"
+  tags: [ phperrorloggingoff ]
+
+- name: Turn maintenance mode off
+  shell:
+    chdir: "{{ moodle_home }}"
+    cmd: "/usr/bin/php admin/cli/maintenance.php --disable"
+  become_user: "{{ moodle_user }}"
+  run_once: True
+  tags: [ maintenance, maintenanceoff ]
