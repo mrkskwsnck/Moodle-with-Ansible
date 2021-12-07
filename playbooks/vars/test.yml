@@ -78,7 +78,7 @@ moodle_plugins:
     dest: "mod/organizer"
   - name: mod_pdfannotator
     repo: https://github.com/rwthmoodle/moodle-mod_pdfannotator.git
-    version: v1.4.8
+    version: v1.4.7.2_Moodle3.10
     dest: "mod/pdfannotator"
   - name: mod_poster
     repo: https://github.com/mudrd8mz/moodle-mod_poster.git
