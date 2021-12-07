@@ -245,7 +245,7 @@ moodle_plugins:
     dest: "lib/editor/atto/plugins/c4l"
   - name: atto_corrections
     repo: https://github.com/ndunand/moodle-atto_corrections.git
-    version: 2021070700
+    version: 2021113000
     dest: "lib/editor/atto/plugins/corrections"
   - repo: https://github.com/moodleuulm/moodle-atto_styles.git
     version: v3.8-r1
@@ -365,7 +365,7 @@ moodle_plugins:
     apply_patches: yes
   - name: local_navbarplus
     repo: https://github.com/moodleuulm/moodle-local_navbarplus.git
-    version: v3.9-r3
+    version: v3.9-r4
     dest: "local/navbarplus"
   - name: local_qbehaviour_interactiveexplain
     repo: https://github.com/marcusgreen/moodle-local_qbehaviour_interactiveexplain.git
