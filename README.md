@@ -19,7 +19,7 @@ VAULT_PASSWORD_FILE=~/.ansible/vault-passwords/example
 
 ```bash
 # Set environment variables
-eval $(cat .env-test)
+eval $(cat .env-example)
 
 # Check environment variables
 echo $INVENTORY $EXTRA_VARS $VAULT_PASSWORD_FILE
