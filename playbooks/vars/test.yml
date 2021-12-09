@@ -360,7 +360,7 @@ moodle_plugins:
     dest: "local/downloadcenter"
   - name: local_learning_analytics
     repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
-    version: v0.18.0
+    version: v0.18.1
     dest: "local/learning_analytics"
     apply_patches: yes
   - name: local_navbarplus

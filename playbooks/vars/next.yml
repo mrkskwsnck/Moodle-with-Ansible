@@ -66,6 +66,10 @@ moodle_plugins:
     version: 2020-06-05-(44)
     dest: "mod/hotpot"
     state: absent
+  - name: mod_hsuforum
+    repo: https://github.com/open-lms-open-source/moodle-mod_hsuforum.git
+    version: master
+    dest: "/mod/hsuforum"
   - repo: https://github.com/PhilDevine/moodle-mod_labelcollapsed.git
     version: master
     dest: "mod/labelcollapsed"
@@ -83,7 +87,7 @@ moodle_plugins:
     dest: "mod/organizer"
   - name: mod_pdfannotator
     repo: https://github.com/rwthmoodle/moodle-mod_pdfannotator.git
-    version: v1.4.9
+    version: v1.4.11
     dest: "mod/pdfannotator"
   - name: mod_poster
     repo: https://github.com/mudrd8mz/moodle-mod_poster.git
@@ -199,7 +203,7 @@ moodle_plugins:
     dest: "lib/editor/atto/plugins/c4l"
   - name: atto_corrections
     repo: https://github.com/ndunand/moodle-atto_corrections.git
-    version: 2021070700
+    version: 2021113000
     dest: "lib/editor/atto/plugins/corrections"
   - repo: https://github.com/moodleuulm/moodle-atto_styles.git
     version: v3.8-r2
@@ -310,14 +314,14 @@ moodle_plugins:
     dest: "local/downloadcenter"
   - name: local_learning_analytics
     repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
-    version: v0.18.0
+    version: v0.18.1
     dest: "local/learning_analytics"
     apply_patches: yes
   - name: local_navbarplus
     repo: https://github.com/moodleuulm/moodle-local_navbarplus.git
-    version: v3.10-r2
+    version: v3.11-r1
     dest: "local/navbarplus"
   - name: local_staticpage
     repo: https://github.com/moodleuulm/moodle-local_staticpage.git
-    version: v3.10-r2
+    version: v3.11-r1
     dest: "local/staticpage"
