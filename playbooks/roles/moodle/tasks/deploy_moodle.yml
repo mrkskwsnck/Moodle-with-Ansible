@@ -44,14 +44,6 @@
   become_user: "{{ moodle_user }}"
   tags: [ phperrorloggingon ]
 
-- name: Turn PHP emergency error logging off
-  lineinfile:
-    path: "{{ moodle_home }}/config.php"
-    regexp: "^/\\* Begin of emergency PHP ERROR LOGGING"
-    line: "/* Begin of emergency PHP ERROR LOGGING"
-  become_user: "{{ moodle_user }}"
-  tags: [ phperrorloggingoff ]
-
 - name: "Apply Moodle patches"
   shell:
     chdir: "{{ moodle_home }}"
@@ -63,3 +55,9 @@
     dest: /tmp/patches
     state: absent
   tags: [moodle, patch]
+
+- name: Download CLI script to reset dashboards
+  get_url:
+    url: https://raw.githubusercontent.com/moodle/moodle/MOODLE_311_STABLE/admin/cli/dashboard_reset.php
+    dest: "{{ moodle_home }}/admin/cli/dashboard_reset.php"
+  tags: patch
