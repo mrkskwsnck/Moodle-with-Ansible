@@ -147,8 +147,12 @@ moodle_plugins:
   #   dest: blocks/forthem
   - name: block_panopto
     repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
-    version: 2021081600
+    version: 2021120900
     dest: "blocks/panopto"
+  - name: block_people
+    repo: https://github.com/moodleuulm/moodle-block_people.git
+    version: v3.11-r1
+    dest: "blocks/people"
   - name: block_point_view
     repo: https://github.com/QuentinFombaron/moodle-block_point_view.git
     version: master
@@ -157,6 +161,10 @@ moodle_plugins:
     repo: https://github.com/bdecentgmbh/moodle-block_timetable.git
     version: v1.0
     dest: "blocks/timetable"
+  - name: block_xp
+    repo: https://github.com/FMCorz/moodle-block_xp.git
+    version: v3.11.3
+    dest: "blocks/xp"
 
   # Question types
   - name: qtype_kprime
@@ -205,7 +213,12 @@ moodle_plugins:
     repo: https://github.com/ndunand/moodle-atto_corrections.git
     version: 2021113000
     dest: "lib/editor/atto/plugins/corrections"
-  - repo: https://github.com/moodleuulm/moodle-atto_styles.git
+  - name: atto_panoptobutton
+    repo: https://github.com/Panopto/Panopto-Button-for-Atto.git
+    version: 2021120900
+    dest: "lib/editor/atto/plugins/panoptobutton"
+  - name: atto_styles
+    repo: https://github.com/moodleuulm/moodle-atto_styles.git
     version: v3.8-r2
     dest: "lib/editor/atto/plugins/styles"
 
@@ -238,7 +251,7 @@ moodle_plugins:
   # Availability restrictions
   - name: availability_coursecompleted
     repo: https://github.com/ewallah/moodle-availability_coursecompleted.git
-    version: v3.9.0
+    version: v3.9.1
     dest: "availability/condition/coursecompleted"
   - name: availability_password
     repo: https://github.com/moodleuulm/moodle-availability_password.git
