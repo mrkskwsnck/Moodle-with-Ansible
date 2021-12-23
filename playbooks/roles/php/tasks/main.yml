@@ -6,7 +6,7 @@
     regexp: "^php_admin_value\\[max_input_vars\\]"
     line: "php_admin_value[max_input_vars] = {{ php_admin_value.max_input_vars }}"
   notify: Restart php-fpm
-  tags: php
+  tags: [ webserver, php ]
 
 - name: Adjust maximum amount of memory a script may consume
   lineinfile:
@@ -14,4 +14,4 @@
     regexp: "^php_admin_value\\[memory_limit\\]"
     line: "php_admin_value[memory_limit] = {{ php_admin_value.memory_limit }}"
   notify: Restart php-fpm
-  tags: php
+  tags: [ webserver, php ]
