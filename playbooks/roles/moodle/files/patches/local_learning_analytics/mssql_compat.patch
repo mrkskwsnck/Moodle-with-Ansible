@@ -1,91 +1,193 @@
 diff --git a/reports/activities/classes/query_helper.php b/reports/activities/classes/query_helper.php
-index 5d2165c..5921c15 100644
+index 5d2165c..1fe5d77 100644
 --- a/reports/activities/classes/query_helper.php
 +++ b/reports/activities/classes/query_helper.php
-@@ -76,7 +76,7 @@ SQL;
+@@ -68,15 +68,21 @@ SQL;
+     }
+ 
+     public static function preview_query_most_clicked_activity(int $courseid, $privacythreshold) {
+-        global $DB;
++        global $CFG, $DB;
+ 
+         $date = new \DateTime();
+         $date->setTime(23, 59, 59); // Include today.
+         $date->modify('-1 week');
          $oneweekago = $date->getTimestamp();
  
++        # Handling of max rows to be returned
++        if ($CFG->dbtype === 'sqlsrv')
++            $top = 'TOP 3';
++        else
++            $limit = 'LIMIT 3';
++
          $query = <<<SQL
 -        SELECT
-+        SELECT TOP 3
++        SELECT {$top}
              cm.id AS cmid,
              m.name as modname,
              COUNT(*) AS hits
-@@ -94,7 +94,6 @@ SQL;
+@@ -94,7 +100,7 @@ SQL;
          GROUP BY cm.id, m.name
          HAVING count(*) >= ?
          ORDER BY hits DESC
 -        LIMIT 3
++        {$limit}
  SQL;
  
          return $DB->get_records_sql($query, [$courseid, $oneweekago, max(1, $privacythreshold)]);
 diff --git a/reports/coursedashboard/classes/query_helper.php b/reports/coursedashboard/classes/query_helper.php
-index c82ef0b..3d588a4 100644
+index c82ef0b..4d8bca9 100644
 --- a/reports/coursedashboard/classes/query_helper.php
 +++ b/reports/coursedashboard/classes/query_helper.php
-@@ -45,7 +45,7 @@ class query_helper {
+@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
+ class query_helper {
+ 
+     public static function query_weekly_activity(int $courseid) : array {
+-        global $DB;
++        global $CFG, $DB;
+ 
+         $course = get_course($courseid);
+ 
+@@ -38,14 +38,21 @@ class query_helper {
+         $startdate->modify('Monday this week'); // Get start of week.
+ 
+         $mondaytimestamp = $startdate->format('U');
++        $week = "(FLOOR((l.timecreated - {$mondaytimestamp}) / (7 * 60 * 60 * 24)) + 1)";
++
++        # T-SQL (which is SQL Server's syntax) cannot GROUP BY column aliases
++        if ($CFG->dbtype === 'sqlsrv')
++            $group_by = $week;
++        else
++            $group_by = 'week';
+ 
+         $query = <<<SQL
+-        SELECT (FLOOR((l.timecreated - {$mondaytimestamp}) / (7 * 60 * 60 * 24)) + 1)
++        SELECT {$week}
+         AS WEEK,
          COUNT(*) clicks
          FROM {logstore_lanalytics_log} l
          WHERE l.courseid = ?
 -        GROUP BY week
-+        GROUP BY (FLOOR((l.timecreated - {$mondaytimestamp}) / (7 * 60 * 60 * 24)) + 1)
++        GROUP BY {$group_by}
          ORDER BY week;
  SQL;
  
 diff --git a/reports/learners/classes/query_helper.php b/reports/learners/classes/query_helper.php
-index 757177c..53f3224 100644
+index 757177c..5e0ac83 100644
 --- a/reports/learners/classes/query_helper.php
 +++ b/reports/learners/classes/query_helper.php
-@@ -116,7 +116,7 @@ SQL;
+@@ -83,6 +83,12 @@ SQL;
+ 
+         $pgspecialcase = ($CFG->dbtype === 'pgsql') ? '' : ', co.startdate';
+ 
++        # T-SQL (which is SQL Server's syntax) must have all selected columns contained in the GROUP BY clause
++        if ($CFG->dbtype === 'sqlsrv')
++            $group_by = "co.{$groupbychoice}, {$coursename}, {$casevalue}, co.startdate";
++        else
++            $group_by = "co.{$groupbychoice}, {$casevalue}";
++
+         $query = <<<SQL
+             SELECT
+                 {$selectconcat} AS uniqueval,-- first row needs to be unique for moodle...
+@@ -116,7 +122,7 @@ SQL;
                  AND e.courseid = ?
                  AND co.startdate <> 0
                  AND co.visible = 1
 -            GROUP BY co.{$groupbychoice}, {$casevalue}
-+            GROUP BY co.{$groupbychoice}, {$coursename}, {$casevalue}, co.startdate
++            GROUP BY {$group_by}
              HAVING COUNT(*) > ? AND {$casevalue} <> 0
              ORDER BY users DESC;
  SQL;
-@@ -178,7 +178,7 @@ SQL;
+@@ -160,16 +166,23 @@ SQL;
+     // Returns array like [100, 50] meaning 100 students were already registered since last week
+     // and 50 more students join in the last days.
+     public static function preview_query_users(int $courseid) : array {
+-        global $DB;
++        global $CFG, $DB;
+ 
+         $date = new \DateTime();
+         $date->modify('-1 week');
+ 
+         $timestamp = $date->getTimestamp();
++        $case = "CASE WHEN ue.timestart < {$timestamp} THEN 0 ELSE 1 END";
++
++        # T-SQL (which is SQL Server's syntax) cannot GROUP BY column aliases
++        if ($CFG->dbtype === 'sqlsrv')
++            $group_by = $case;
++        else
++            $group_by = 'time';
+ 
+         $query = <<<SQL
+         SELECT
+-            CASE WHEN ue.timestart < {$timestamp} THEN 0 ELSE 1 END AS time,
++            {$case} AS time,
+             COUNT(DISTINCT u.id) AS learners
+         FROM {user} u
+         JOIN {user_enrolments} ue
+@@ -178,7 +191,7 @@ SQL;
              ON e.id = ue.enrolid
          WHERE u.deleted = 0
              AND e.courseid = ?
 -        GROUP BY time
-+        GROUP BY CASE WHEN ue.timestart < {$timestamp} THEN 0 ELSE 1 END
++        GROUP BY {$group_by}
          ORDER BY time;
  SQL;
  
 diff --git a/reports/quiz_assign/classes/query_helper.php b/reports/quiz_assign/classes/query_helper.php
-index b921f42..daab96d 100644
+index b921f42..7a618e0 100644
 --- a/reports/quiz_assign/classes/query_helper.php
 +++ b/reports/quiz_assign/classes/query_helper.php
-@@ -55,7 +55,7 @@ class query_helper {
+@@ -34,7 +34,13 @@ use context_course;
+ class query_helper {
+ 
+     public static function query_quiz(int $courseid): array {
+-        global $DB;
++        global $CFG, $DB;
++
++        # T-SQL (which is SQL Server's syntax) must have all selected columns contained in the GROUP BY clause
++        if ($CFG->dbtype === 'sqlsrv')
++            $group_by = 'q.id, q.sumgrades';
++        else
++            $group_by = 'q.id';
+ 
+         $query = <<<SQL
+         SELECT
+@@ -55,7 +61,7 @@ class query_helper {
          WHERE gi.courseid = ?
              AND gi.itemtype = 'mod'
              AND gi.itemmodule = 'quiz'
 -        GROUP BY q.id
-+        GROUP BY q.id, q.sumgrades
++        GROUP BY {$group_by}
  SQL;
  
          return $DB->get_records_sql($query, [$courseid]);
 diff --git a/reports/weekheatmap/classes/query_helper.php b/reports/weekheatmap/classes/query_helper.php
-index e118f5d..a926b1e 100644
+index e118f5d..55e4f4f 100644
 --- a/reports/weekheatmap/classes/query_helper.php
 +++ b/reports/weekheatmap/classes/query_helper.php
-@@ -43,6 +43,8 @@ class query_helper {
+@@ -38,11 +38,16 @@ class query_helper {
+         global $DB, $CFG;
+ 
+         $weekstatement = "FROM_UNIXTIME(l.timecreated, '%w-%k')";
++        $group_by = 'heatpoint';
+ 
+         if ($CFG->dbtype === 'pgsql') {
              $date = new DateTime();        
              $timezone = $date->getTimezone()->getName();
              $weekstatement = "TO_CHAR(TO_TIMESTAMP(l.timecreated) at time zone '".$timezone."', 'D-HH24')";
 +        } elseif ($CFG->dbtype === 'sqlsrv') {
++            # T-SQL (which is SQL Server's syntax) cannot GROUP BY column aliases
 +            $weekstatement = "CONCAT(DATEPART(weekday, DATEADD(SECOND, l.timecreated, '1970-01-01')) - 1, '-', DATEPART(hour, DATEADD(SECOND, l.timecreated + 3600, '1970-01-01')))";
++            $group_by = $weekstatement;
          }
  
          // MySQL returns points where 0-00 => Sun,0-1am; 0-01 => Sun,1-2am; ...
-@@ -53,7 +55,7 @@ class query_helper {
+@@ -53,7 +58,7 @@ class query_helper {
              COUNT(1) AS value
          FROM {logstore_lanalytics_log} AS l
              WHERE l.courseid = ?
 -        GROUP BY heatpoint
-+        GROUP BY {$weekstatement}
++        GROUP BY {$group_by}
          ORDER BY heatpoint
  SQL;
  
