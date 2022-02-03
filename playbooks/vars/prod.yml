@@ -2,8 +2,13 @@
 # Variables for a specific Moodle instance
 
 document_root: "/var/www/html"
+
+php_admin_value:
+  max_input_vars: 5000
+  memory_limit: 256M
+
 moodle_instance: prod
-moodle_version: v3.9.11
+moodle_version: v3.9.12
 moodle_folder_name: moodle
 moodle_home: "{{ document_root }}/{{ moodle_folder_name }}"
 
@@ -70,9 +75,11 @@ moodle_plugins:
     repo: https://github.com/mudrd8mz/moodle-mod_poster.git
     version: 6.0.1
     dest: "mod/poster"
-  - repo: https://github.com/academic-moodle-cooperation/moodle-mod_publication.git
+  - name: mod_publication
+    repo: https://github.com/academic-moodle-cooperation/moodle-mod_publication.git
     version: v3.9.0
     dest: "mod/publication"
+    apply_patches: yes
   - name: mod_questionnaire
     repo: https://github.com/PoetOS/moodle-mod_questionnaire.git
     version: 3.10.1
@@ -107,10 +114,18 @@ moodle_plugins:
     repo: https://github.com/CLAMP-IT/moodle-blocks_filtered_course_list.git
     version: v4.4.2
     dest: "blocks/filtered_course_list"
+  - name: block_forthem
+    repo: git@gitlab.rlp.net:elearning/moodle-forthem.git
+    version: v2022020400.1
+    dest: blocks/forthem
   - name: block_panopto
     repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
-    version: 2021081600
+    version: 2021120900
     dest: "blocks/panopto"
+  - name: block_xp
+    repo: https://github.com/FMCorz/moodle-block_xp.git
+    version: v3.11.3
+    dest: "blocks/xp"
 
   # Question types
   - name: qtype_combined
@@ -187,9 +202,14 @@ moodle_plugins:
     repo: https://github.com/rogersegu/moodle-atto_c4l.git
     version: main
     dest: "lib/editor/atto/plugins/c4l"
-  - repo: https://github.com/ndunand/moodle-atto_corrections.git
-    version: 2021070700
+  - name: atto_corrections
+    repo: https://github.com/ndunand/moodle-atto_corrections.git
+    version: 2021113000
     dest: "lib/editor/atto/plugins/corrections"
+  - name: atto_panoptobutton
+    repo: https://github.com/Panopto/Panopto-Button-for-Atto.git
+    version: 2021120900
+    dest: "lib/editor/atto/plugins/panoptobutton"
 
   # Log store manager / Log stores
   - name: logstore_lanalytics
@@ -201,8 +221,9 @@ moodle_plugins:
   - repo: https://gitlab.com/drlikm/format_etask.git
     version: v2.1
     dest: "course/format/etask"
-  - repo: https://github.com/gjb2048/moodle-format_grid.git
-    version: V3.9.1.4
+  - name: format_grid
+    repo: https://github.com/gjb2048/moodle-format_grid.git
+    version: V3.9.1.5
     dest: "course/format/grid"
   - name: format_softcourse
     repo: https://github.com/DigiDago/moodle-format_softcourse.git
@@ -228,7 +249,7 @@ moodle_plugins:
   # Themes
   - name: theme_boost_campus
     repo: https://github.com/moodleuulm/moodle-theme_boost_campus.git
-    version: v3.9-r12
+    version: v3.9-r13
     dest: "theme/boost_campus"
     apply_patches: yes
     copy_files: yes
@@ -236,12 +257,12 @@ moodle_plugins:
   # Local plugins
   - name: local_learning_analytics
     repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
-    version: v0.18.0
+    version: v0.19.1
     dest: "local/learning_analytics"
     apply_patches: yes
   - name: local_navbarplus
     repo: https://github.com/moodleuulm/moodle-local_navbarplus.git
-    version: v3.9-r3
+    version: v3.9-r4
     dest: "local/navbarplus"
   - name: local_staticpage
     repo: https://github.com/moodleuulm/moodle-local_staticpage.git

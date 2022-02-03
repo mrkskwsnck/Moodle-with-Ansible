@@ -242,7 +242,8 @@ moodle_plugins:
     repo: https://github.com/gjb2048/moodle-filter_synhi.git
     version: V3.7.1.2
     dest: "filter/synhi"
-  - repo: https://github.com/JosePFs/moodle-filter_tabs.git
+  - name: filter_tabs
+    repo: https://github.com/JosePFs/moodle-filter_tabs.git
     version: v3.4-r3
     dest: "filter/tabs"
 
@@ -275,7 +276,8 @@ moodle_plugins:
     dest: "enrol/coursecompleted"
 
   # Authentication methods
-  - repo: https://github.com/catalyst/moodle-auth_saml2.git
+  - name: auth_saml2
+    repo: https://github.com/catalyst/moodle-auth_saml2.git
     version: MOODLE_39_STABLE
     dest: "auth/saml2"
 
@@ -314,7 +316,8 @@ moodle_plugins:
     repo: https://github.com/gjb2048/moodle-format_grid.git
     version: V3.9.1.5
     dest: "course/format/grid"
-  - repo: https://github.com/stefanscholz/moodle-format_kickstart.git
+  - name: format_kickstart
+    repo: https://github.com/stefanscholz/moodle-format_kickstart.git
     version: v1.1.9
     dest: "course/format/kickstart"
   - name: format_multitopic
@@ -333,7 +336,8 @@ moodle_plugins:
     repo: https://github.com/DigiDago/moodle-format_softcourse.git
     version: 3.11rc1.2
     dest: "course/format/softcourse"
-  - repo: https://github.com/willianmano/moodle-format_timeline.git
+  - name: format_timeline
+    repo: https://github.com/willianmano/moodle-format_timeline.git
     version: MOODLE_39_STABLE
     dest: "course/format/timeline"
   - name: format_trail
