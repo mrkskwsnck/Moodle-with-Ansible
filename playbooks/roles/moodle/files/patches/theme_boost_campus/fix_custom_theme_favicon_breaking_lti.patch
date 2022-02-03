@@ -10,10 +10,10 @@ index 6596d86..5fc1d7d 100644
 +        // Modification by Claudio Ruocco @ Unipa - claudio.ruocco@unipa.it
          if (!empty($this->page->theme->settings->favicon)) {
 -            return $this->page->theme->setting_file_url('favicon', 'favicon');
-+    		$setting_url = $this->page->theme->setting_file_url('favicon', 'favicon');
-+    		$start = strpos($setting_url, "/pluginfile.php/");
-+    		$actual_url = substr($setting_url, $start);
-+    		return new \moodle_url($actual_url);
++            $setting_url = $this->page->theme->setting_file_url('favicon', 'favicon');
++            $start = strpos($setting_url, "/pluginfile.php/");
++            $actual_url = substr($setting_url, $start);
++            return new \moodle_url($actual_url);
          } else {
              return $this->image_url('favicon', 'theme');
          }
