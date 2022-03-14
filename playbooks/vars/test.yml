@@ -3,10 +3,6 @@
 
 document_root: "/var/www/html"
 
-php_admin_value:
-  max_input_vars: 5000
-  memory_limit: 256M
-
 moodle_instance: test
 moodle_version: v3.9.12
 moodle_folder_name: "{{ moodle_instance }}"
