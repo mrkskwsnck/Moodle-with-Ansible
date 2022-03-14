@@ -3,3 +3,4 @@ packages:
   - graphviz
   - php-pgsql
   - php-tideways
+  - php-xmlrpc
