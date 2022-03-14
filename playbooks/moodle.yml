@@ -13,3 +13,7 @@
     - moodle
     - caches
     - securitytxt
+  post_tasks:
+  - name: Display post deploy message
+    debug:
+      msg: "Now, you can visit Moodle deployed @ {{ moodle_cfg.wwwroot }}"
