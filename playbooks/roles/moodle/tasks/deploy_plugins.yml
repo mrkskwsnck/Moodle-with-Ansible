@@ -24,7 +24,7 @@
   tags: [uninstall, plugins]
 
 # TODO Make a clean comma seperated list of plug-ins split by a tab
-- name: "Purge plug-ins “{{ missing_from_disk.stdout_lines | join(', ') }}” missing from disk on {{ moodle_instance | upper() }} instance"
+- name: "Purge plug-ins ({{ missing_from_disk.stdout_lines | join(', ') }}) missing from disk on {{ moodle_instance | upper() }} instance"
   shell:
     chdir: "{{ moodle_home }}"
     cmd: "php admin/cli/uninstall_plugins.php --purge-missing --run"
