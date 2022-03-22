@@ -4,7 +4,7 @@
 document_root: "/var/www/html"
 
 moodle_instance: test
-moodle_version: v3.11.6
+moodle_version: MOODLE_311_STABLE
 moodle_folder_name: "{{ moodle_instance }}"
 moodle_home: "{{ document_root }}/{{ moodle_folder_name }}"
 
@@ -44,7 +44,7 @@ moodle_plugins:
     version: 1.39.06
     dest: "mod/board"
   - repo: https://github.com/davosmith/moodle-checklist.git
-    version: 3.9.0.2
+    version: master
     dest: "mod/checklist"
   - name: mod_checkmark
     repo: https://github.com/academic-moodle-cooperation/moodle-mod_checkmark.git
@@ -87,6 +87,10 @@ moodle_plugins:
     repo: https://github.com/learnweb/moodle-mod_moodleoverflow.git
     version: v3.11-r2
     dest: "mod/moodleoverflow"
+  - name: mod_onlyoffice
+    repo: https://github.com/logicexpertise/moodle-mod_onlyoffice.git
+    version: master
+    dest: "mod/onlyoffice"
   - name: mod_organizer
     repo: https://github.com/academic-moodle-cooperation/moodle-mod_organizer.git
     version: v3.11.2
@@ -309,7 +313,7 @@ moodle_plugins:
   # Authentication methods
   - name: auth_saml2
     repo: https://github.com/catalyst/moodle-auth_saml2.git
-    version: 2021062901
+    version: MOODLE_39_STABLE
     dest: "auth/saml2"
 
   # Admin tools
@@ -391,7 +395,7 @@ moodle_plugins:
     dest: "report/coursesize"
   - name: report_embedquestion
     repo: https://github.com/moodleou/moodle-report_embedquestion.git
-    version: v1.5
+    version: v1.6
     dest: "report/embedquestion"
   - name: report_questionnairestats
     repo: https://github.com/dired-ufla/questionnairestats.git
@@ -436,7 +440,7 @@ moodle_plugins:
     dest: "local/navbarplus"
   - name: local_qbehaviour_interactiveexplain
     repo: https://github.com/marcusgreen/moodle-local_qbehaviour_interactiveexplain.git
-    version: v0.9
+    version: main
     dest: "local/qbehaviour_interactiveexplain"
   - name: local_reminders
     repo: https://github.com/isuru89/moodle-local_reminders.git
