@@ -60,4 +60,5 @@
   get_url:
     url: https://raw.githubusercontent.com/moodle/moodle/MOODLE_311_STABLE/admin/cli/dashboard_reset.php
     dest: "{{ moodle_home }}/admin/cli/dashboard_reset.php"
+  # TODO If not Moodle v3.11
   tags: patch
