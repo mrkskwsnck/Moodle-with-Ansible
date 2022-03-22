@@ -3,12 +3,8 @@
 
 document_root: "/var/www/html"
 
-php_admin_value:
-  max_input_vars: 5000
-  memory_limit: 256M
-
 moodle_instance: prod
-moodle_version: v3.9.12
+moodle_version: v3.9.13
 moodle_folder_name: moodle
 moodle_home: "{{ document_root }}/{{ moodle_folder_name }}"
 
@@ -82,7 +78,7 @@ moodle_plugins:
     apply_patches: yes
   - name: mod_questionnaire
     repo: https://github.com/PoetOS/moodle-mod_questionnaire.git
-    version: 3.10.1
+    version: 3.10.2
     dest: "mod/questionnaire"
   - name: mod_reader
     repo: https://github.com/gbateson/moodle-mod_reader.git
@@ -92,6 +88,12 @@ moodle_plugins:
     repo: https://github.com/davosmith/moodle-realtimequiz.git
     version: master
     dest: "mod/realtimequiz"
+
+  # Assignment / Submission plugins
+  - name: assignsubmission_maharaws
+    repo: https://github.com/catalyst/moodle-assignsubmission_maharaws.git
+    version: main
+    dest: "mod/assign/submission/maharaws"
 
   # Quiz / Reports
   - name: quiz_archive
@@ -116,15 +118,15 @@ moodle_plugins:
     dest: "blocks/filtered_course_list"
   - name: block_forthem
     repo: git@gitlab.rlp.net:elearning/moodle-forthem.git
-    version: v2022020400.1
+    version: v2022030300
     dest: blocks/forthem
   - name: block_panopto
     repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
-    version: 2021120900
+    version: 2022022300
     dest: "blocks/panopto"
   - name: block_xp
     repo: https://github.com/FMCorz/moodle-block_xp.git
-    version: v3.11.3
+    version: v3.11.4
     dest: "blocks/xp"
 
   # Question types
@@ -211,6 +213,12 @@ moodle_plugins:
     version: 2021120900
     dest: "lib/editor/atto/plugins/panoptobutton"
 
+  # Authentication methods
+  - name: auth_saml2
+    repo: https://github.com/catalyst/moodle-auth_saml2.git
+    version: 2021062901
+    dest: "auth/saml2"
+
   # Log store manager / Log stores
   - name: logstore_lanalytics
     repo: https://github.com/rwthanalytics/moodle-logstore_lanalytics.git
@@ -257,7 +265,7 @@ moodle_plugins:
   # Local plugins
   - name: local_learning_analytics
     repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
-    version: v0.19.1
+    version: v0.19.2
     dest: "local/learning_analytics"
     apply_patches: yes
   - name: local_navbarplus

@@ -3,12 +3,8 @@
 
 document_root: "/var/www/html"
 
-php_admin_value:
-  max_input_vars: 5000
-  memory_limit: 256M
-
 moodle_instance: next
-moodle_version: v3.11.5
+moodle_version: v3.11.6
 moodle_folder_name: "{{ moodle_instance }}"
 moodle_home: "{{ document_root }}/{{ moodle_folder_name }}"
 
@@ -50,8 +46,9 @@ moodle_plugins:
   - repo: https://github.com/davosmith/moodle-checklist.git
     version: 3.9.0.2
     dest: "mod/checklist"
-  - repo: https://github.com/academic-moodle-cooperation/moodle-mod_checkmark.git
-    version: v3.11.1
+  - name: mod_checkmark
+    repo: https://github.com/academic-moodle-cooperation/moodle-mod_checkmark.git
+    version: v3.11.2
     dest: "mod/checkmark"
   - name: mod_choicegroup
     repo: https://github.com/ndunand/moodle-mod_choicegroup.git
@@ -92,7 +89,7 @@ moodle_plugins:
     dest: "mod/moodleoverflow"
   - name: mod_organizer
     repo: https://github.com/academic-moodle-cooperation/moodle-mod_organizer.git
-    version: v3.11.0
+    version: v3.11.2
     dest: "mod/organizer"
   - name: mod_pdfannotator
     repo: https://github.com/rwthmoodle/moodle-mod_pdfannotator.git
@@ -104,16 +101,16 @@ moodle_plugins:
     dest: "mod/poster"
   - name: mod_publication
     repo: https://github.com/academic-moodle-cooperation/moodle-mod_publication.git
-    version: v3.11.1
+    version: v3.11.2
     dest: "mod/publication"
-    apply_patches: yes
+    apply_patches: no
   - name: mod_pulse
     repo: https://github.com/bdecentgmbh/moodle-mod_pulse.git
     version: v1.11
     dest: "mod/pulse"
   - name: mod_questionnaire
     repo: https://github.com/PoetOS/moodle-mod_questionnaire.git
-    version: master
+    version: MOODLE_311_STABLE
     dest: "mod/questionnaire"
   - name: mod_stickynotes
     repo: https://github.com/oliviervalentin/moodle-mod_stickynotes.git
@@ -145,6 +142,10 @@ moodle_plugins:
     repo: https://github.com/DigiDago/moodle-block_course_modulenavigation.git
     version: v4.5
     dest: "blocks/course_modulenavigation"
+  - name: block_dash
+    repo: https://github.com/bdecentgmbh/moodle-block_dash.git
+    version: 1.2.0
+    dest: "blocks/dash"
   - name: block_filtered_course_list
     repo: https://github.com/CLAMP-IT/moodle-blocks_filtered_course_list.git
     version: v4.4.2
@@ -156,7 +157,7 @@ moodle_plugins:
     state: absent
   - name: block_panopto
     repo: https://github.com/Panopto/Moodle-2.0-plugin-for-Panopto.git
-    version: 2021120900
+    version: 2022022300
     dest: "blocks/panopto"
   - name: block_people
     repo: https://github.com/moodleuulm/moodle-block_people.git
@@ -172,7 +173,7 @@ moodle_plugins:
     dest: "blocks/timetable"
   - name: block_xp
     repo: https://github.com/FMCorz/moodle-block_xp.git
-    version: v3.11.3
+    version: v3.11.4
     dest: "blocks/xp"
 
   # Question types
@@ -209,7 +210,8 @@ moodle_plugins:
     repo: https://github.com/gjb2048/moodle-filter_synhi.git
     version: V3.7.1.2
     dest: "filter/synhi"
-  - repo: https://github.com/JosePFs/moodle-filter_tabs.git
+  - name: filter_tabs
+    repo: https://github.com/JosePFs/moodle-filter_tabs.git
     version: v3.4-r3
     dest: "filter/tabs"
 
@@ -238,12 +240,13 @@ moodle_plugins:
     dest: "enrol/attributes"
   - name: enrol_coursecompleted
     repo: https://github.com/ewallah/moodle-enrol_coursecompleted.git
-    version: v3.9.3
+    version: v3.9.4
     dest: "enrol/coursecompleted"
 
   # Authentication methods
-  - repo: https://github.com/catalyst/moodle-auth_saml2.git
-    version: MOODLE_39_STABLE
+  - name: auth_saml2
+    repo: https://github.com/catalyst/moodle-auth_saml2.git
+    version: 2021062901
     dest: "auth/saml2"
 
   # Admin tools
@@ -266,7 +269,7 @@ moodle_plugins:
   # Availability restrictions
   - name: availability_coursecompleted
     repo: https://github.com/ewallah/moodle-availability_coursecompleted.git
-    version: v3.9.3
+    version: v3.9.5
     dest: "availability/condition/coursecompleted"
   - name: availability_password
     repo: https://github.com/moodleuulm/moodle-availability_password.git
@@ -281,7 +284,8 @@ moodle_plugins:
     repo: https://github.com/gjb2048/moodle-format_grid.git
     version: V3.11.1.1
     dest: "course/format/grid"
-  - repo: https://github.com/stefanscholz/moodle-format_kickstart.git
+  - name: format_kickstart
+    repo: https://github.com/stefanscholz/moodle-format_kickstart.git
     version: v1.1.9
     dest: "course/format/kickstart"
   - name: format_multitopic
@@ -320,7 +324,7 @@ moodle_plugins:
     dest: "report/assign"
   - name: report_coursesize
     repo: https://github.com/catalyst/moodle-report_coursesize.git
-    version: master
+    version: MOODLE_39_STABLE
     dest: "report/coursesize"
 
   # Cache stores
@@ -348,11 +352,11 @@ moodle_plugins:
     dest: "local/bulkenrol"
   - name: local_downloadcenter
     repo: https://github.com/academic-moodle-cooperation/moodle-local_downloadcenter.git
-    version: v3.11.0
+    version: v3.11.1
     dest: "local/downloadcenter"
   - name: local_learning_analytics
     repo: https://github.com/rwthanalytics/moodle-local_learning_analytics.git
-    version: v0.19.1
+    version: v0.19.2
     dest: "local/learning_analytics"
     apply_patches: yes
   - name: local_navbarplus
