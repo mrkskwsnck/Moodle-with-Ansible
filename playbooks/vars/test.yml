@@ -37,13 +37,14 @@ moodle_plugins:
     dest: "mod/attendance"
   - name: mod_bigbluebuttonbn
     repo: https://github.com/blindsidenetworks/moodle-mod_bigbluebuttonbn.git
-    version: v2.4.4
+    version: v2.4-stable
     dest: "mod/bigbluebuttonbn"
   - name: mod_board
     repo: https://github.com/brickfield/moodle-mod_board.git
     version: 1.39.06
     dest: "mod/board"
-  - repo: https://github.com/davosmith/moodle-checklist.git
+  - name: mod_checklist
+    repo: https://github.com/davosmith/moodle-checklist.git
     version: master
     dest: "mod/checklist"
   - name: mod_checkmark
@@ -54,14 +55,20 @@ moodle_plugins:
     repo: https://github.com/ndunand/moodle-mod_choicegroup.git
     version: 2021083100
     dest: "mod/choicegroup"
+  - name: mod_coursecertificate
+    repo: https://github.com/moodleworkplace/moodle-mod_coursecertificate.git
+    dest: "mod/coursecertificate"
   - name: mod_customcert
     repo: https://github.com/mdjnelson/moodle-mod_customcert.git
-    version: v3.11.1
+    #version: MOODLE_311_STABLE
     dest: "mod/customcert"
   - name: mod_debate
     repo: https://github.com/safatshahin-dev/moodle-mod_debate.git
     version: main
     dest: "mod/debate"
+  - name: mod_discourse
+    repo: https://github.com/coactum/moodle-mod_discourse.git
+    dest: "mod/discourse"
   - name: mod_hotpot
     repo: https://github.com/gbateson/moodle-mod_hotpot
     version: 2020-06-05-(44)
@@ -125,8 +132,7 @@ moodle_plugins:
     version: master
     dest: "mod/realtimequiz"
   - name: mod_stickynotes
-    repo: https://github.com/oliviervalentin/moodle-mod_stickynotes.git
-    version: main
+    remote_archive: "https://moodle.org/plugins/download.php/25977/mod_stickynotes_moodle311_2022021104.zip"
     dest: "mod/stickynotes"
   - name: mod_studentquiz
     repo: https://github.com/frankkoch/moodle-mod_studentquiz.git
@@ -150,15 +156,16 @@ moodle_plugins:
     dest: "mod/quiz/report/archive"
   
   # Blocks
-  - repo: https://github.com/davosmith/moodle-block_checklist.git
+  - name: block_checklist
+    repo: https://github.com/davosmith/moodle-block_checklist.git
     version: master
     dest: "blocks/checklist"
-  - repo: https://github.com/jonof/moodle-block_completion_progress.git
-    version: 2021070900
+  - name: block_completion_progress
+    repo: https://github.com/jonof/moodle-block_completion_progress.git
     dest: "blocks/completion_progress"
   - name: block_course_modulenavigation
     repo: https://github.com/DigiDago/moodle-block_course_modulenavigation.git
-    version: v4.5
+    version: MOODLE_311_STABLE
     dest: "blocks/course_modulenavigation"
   - name: block_dash
     repo: https://github.com/bdecentgmbh/moodle-block_dash.git
@@ -181,8 +188,7 @@ moodle_plugins:
     version: v3.11-r1
     dest: "blocks/people"
   - name: block_point_view
-    repo: https://github.com/QuentinFombaron/moodle-block_point_view.git
-    version: master
+    remote_archive: "https://moodle.org/plugins/download.php/26065/block_point_view_moodle311_2022022800.zip"
     dest: "blocks/point_view"
   - name: block_timetable
     repo: https://github.com/bdecentgmbh/moodle-block_timetable.git
@@ -190,7 +196,7 @@ moodle_plugins:
     dest: "blocks/timetable"
   - name: block_xp
     repo: https://github.com/FMCorz/moodle-block_xp.git
-    version: v3.11.4
+    version: master
     dest: "blocks/xp"
 
   # Question types
@@ -200,7 +206,6 @@ moodle_plugins:
     dest: "question/type/combined"
   - name: qtype_essayautograde
     repo: https://github.com/gbateson/moodle-qtype_essayautograde.git
-    version: 2021-10-19-(12)
     dest: "question/type/essayautograde"
   - name: qtype_formulas
     repo: https://github.com/dbauer-ets/moodle-qtype_formulas.git
@@ -208,7 +213,7 @@ moodle_plugins:
     dest: "question/type/formulas"
   - name: qtype_geogebra
     repo: https://github.com/mebis-lp/moodle-qtype_geogebra.git
-    version: 1.11.2
+    version: MOODLE_311_STABLE
     dest: "question/type/geogebra"
   - name: qtype_kprime
     repo: https://github.com/ethz-let/moodle-qtype_kprime.git
@@ -252,7 +257,6 @@ moodle_plugins:
     dest: "question/type/varnumunit"
   - name: qtype_wordselect
     repo: https://github.com/marcusgreen/moodle-qtype_wordselect.git
-    version: v2.47
     dest: "question/type/wordselect"
 
   # Question behaviours
@@ -271,7 +275,7 @@ moodle_plugins:
   # Text filters
   - name: filter_embedquestion
     repo: https://github.com/moodleou/moodle-filter_embedquestion.git
-    version: v2.1
+    version: main
     dest: "filter/embedquestion"
   - name: filter_synhi
     repo: https://github.com/gjb2048/moodle-filter_synhi.git
@@ -299,6 +303,9 @@ moodle_plugins:
     repo: https://github.com/moodleuulm/moodle-atto_styles.git
     version: v3.8-r2
     dest: "lib/editor/atto/plugins/styles"
+  - name: atto_wordcount
+    repo: https://github.com/SysBind/moodle-atto_wordcount.git
+    dest: "lib/editor/atto/plugins/wordcount"
 
   # Enrolment methods
   - name: enrol_attributes
@@ -317,6 +324,9 @@ moodle_plugins:
     dest: "auth/saml2"
 
   # Admin tools
+  - name: tool_certificate
+    repo: https://github.com/moodleworkplace/moodle-tool_certificate.git
+    dest: "admin/tool/certificate"
   - name: tool_coursefields
     repo: https://github.com/moodleuulm/moodle-tool_coursefields.git
     version: v3.11-r2
@@ -336,12 +346,17 @@ moodle_plugins:
   # Availability restrictions
   - name: availability_coursecompleted
     repo: https://github.com/ewallah/moodle-availability_coursecompleted.git
-    version: v3.9.5
     dest: "availability/condition/coursecompleted"
   - name: availability_password
     repo: https://github.com/moodleuulm/moodle-availability_password.git
     version: v3.11-r1
     dest: "availability/condition/password"
+  - name: availability_xp
+    repo: https://github.com/FMCorz/moodle-availability_xp.git
+    dest: "availability/condition/xp"
+  - name: enrol_xp
+    repo: https://github.com/branchup/moodle-enrol_xp.git
+    dest: "enrol/xp"
 
   # Course formats
   - repo: https://gitlab.com/drlikm/format_etask.git
@@ -379,6 +394,10 @@ moodle_plugins:
     repo: https://github.com/willianmano/moodle-format_timeline.git
     version: main
     dest: "course/format/timeline"
+  - name: format_topicsactivitycards
+    repo: https://github.com/andrewhancox/format_topicsactivitycards.git
+    version: master
+    dest: "course/format/topicsactivitycards"
   - name: format_trail
     repo: https://github.com/JotaDF/moodle-format_trail.git
     version: main
@@ -395,7 +414,6 @@ moodle_plugins:
     dest: "report/coursesize"
   - name: report_embedquestion
     repo: https://github.com/moodleou/moodle-report_embedquestion.git
-    version: v1.6
     dest: "report/embedquestion"
   - name: report_questionnairestats
     repo: https://github.com/dired-ufla/questionnairestats.git
@@ -434,6 +452,10 @@ moodle_plugins:
     version: v0.19.2
     dest: "local/learning_analytics"
     apply_patches: yes
+  - name: local_metadata
+    repo: https://github.com/PoetOS/moodle-local_metadata.git
+    version: master  # Needed for format_topicsactivitycards, otherwise MOODLE_311_STABLE
+    dest: "local/metadata"
   - name: local_navbarplus
     repo: https://github.com/moodleuulm/moodle-local_navbarplus.git
     version: v3.11-r1
@@ -454,3 +476,6 @@ moodle_plugins:
     repo: https://github.com/Veloxnet-LMS/moodle-local_vxg_dashboard.git
     version: master
     dest: "local/vxg_dashboard"
+  - name: local_xp
+    archive: "local_xp.zip"
+    dest: "local/xp"
