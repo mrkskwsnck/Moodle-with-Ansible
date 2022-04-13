@@ -71,6 +71,7 @@
 
       - name: "Deploy plug-ins from archives"
         block:
+          # TODO Implement checksum check of archive
           - name: "Remove unarchived contents"
             file:
               dest: "{{ moodle_home}}/{{ item.dest }}"
@@ -84,6 +85,24 @@
               creates: "{{ moodle_home}}/{{ item.dest }}"
             with_items: "{{ moodle_plugins }}"
             when: item.archive is defined
+        tags: [ unarchive ]
+
+      - name: "Deploy plug-ins from remote archives"
+        block:
+          - name: "Remove unarchived contents"
+            file:
+              dest: "{{ moodle_home}}/{{ item.dest }}"
+              state: absent
+            with_items: "{{ moodle_plugins }}"
+            when: item.remote_archive is defined
+          - name: "Unarchive plug-ins from URL"
+            unarchive:
+              remote_src: yes
+              src: "{{ item.remote_archive }}"
+              dest: "{{ moodle_home}}/{{ item.dest | dirname }}"
+              creates: "{{ moodle_home}}/{{ item.dest }}"
+            with_items: "{{ moodle_plugins }}"
+            when: item.remote_archive is defined
         tags: [ unarchive ]
 
       - name: "Apply plug-in patches"
