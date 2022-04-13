@@ -3,3 +3,5 @@ packages:
   - graphviz
   - php-pgsql
   - php-tideways
+  - php-xmlrpc
+  - unzip  # For Ansible's unarchive module

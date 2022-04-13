@@ -3,13 +3,13 @@
   file:
     dest: /tmp/patches
     state: absent
-  tags: [moodle, patch]
+  tags: [ patch ]
 
 - name: "Copy patches temporarily to server"
   copy:
     src: patches
     dest: /tmp
-  tags: patch
+  tags: [ patch ]
 
 # Reverse applied patches for git update not to fail. However, don′t force it—
 # for a clean deployment′s sake!
@@ -18,7 +18,7 @@
   shell:
     chdir: "{{ moodle_home }}"
     cmd: "git apply --reverse /tmp/patches/moodle/*.patch || echo Already reversed"
-  tags: patch
+  tags: [ patch ]
 
 - name: "Check out Moodle {{ moodle_version }} for {{ moodle_instance | upper() }} instance"
   git:
@@ -28,13 +28,13 @@
     dest: "{{ moodle_home }}"
     update: yes
     force: "{{ git_force | default('no') }}"
-  tags: checkout
+  tags: [ checkout ]
 
 - name: "Create configuration file for {{ moodle_instance | upper() }} instance"
   template:
     src: config.php.j2
     dest: "{{ moodle_home }}/config.php"
-  tags: config
+  tags: [ config ]
 
 - name: Turn PHP emergency error logging on
   lineinfile:
@@ -48,16 +48,10 @@
   shell:
     chdir: "{{ moodle_home }}"
     cmd: git apply /tmp/patches/moodle/*.patch
-  tags: patch
+  tags: [ patch ]
 
 - name: "Delete patches from server (afterwards)"
   file:
     dest: /tmp/patches
     state: absent
-  tags: [moodle, patch]
-
-- name: Download CLI script to reset dashboards
-  get_url:
-    url: https://raw.githubusercontent.com/moodle/moodle/MOODLE_311_STABLE/admin/cli/dashboard_reset.php
-    dest: "{{ moodle_home }}/admin/cli/dashboard_reset.php"
-  tags: patch
+  tags: [ patch ]

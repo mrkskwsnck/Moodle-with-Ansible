@@ -8,8 +8,11 @@
   tags: [ maintenance, maintenanceon ]
 
 - import_tasks: handle_sessions.yml
+  tags: [ sessions ]
 - import_tasks: deploy_moodle.yml
+  tags: [ moodle ]
 - import_tasks: deploy_plugins.yml
+  tags: [ plugins ]
 
 - name: "Perform upgrade of Moodle to version {{ moodle_version }} for {{ moodle_instance | upper() }} instance"
   shell:
