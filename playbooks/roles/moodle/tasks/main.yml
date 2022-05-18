@@ -1,4 +1,16 @@
 ---
+- name: Check MOODLE_HOME directory for existence
+  stat:
+    path: "{{ moodle_home }}"
+  register: moodle_home
+  tags: [ checkout, patch ]
+
+- name: Create MOODLE_HOME directory
+  file:
+    path: "{{ moodle_home }}"
+    state: directory
+  tags: [ checkout, patch ]
+
 - name: Turn maintenance mode on
   shell:
     chdir: "{{ moodle_home }}"

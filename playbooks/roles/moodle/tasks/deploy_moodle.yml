@@ -18,6 +18,7 @@
   shell:
     chdir: "{{ moodle_home }}"
     cmd: "git apply --reverse /tmp/patches/moodle/*.patch || echo Already reversed"
+  when: moodle_home.stat.isdir is defined and moodle_home.stat.isdir
   tags: [ patch ]
 
 - name: "Check out Moodle {{ moodle_version }} for {{ moodle_instance | upper() }} instance"
@@ -48,6 +49,7 @@
   shell:
     chdir: "{{ moodle_home }}"
     cmd: git apply /tmp/patches/moodle/*.patch
+  when: moodle_home.stat.isdir is defined and moodle_home.stat.isdir
   tags: [ patch ]
 
 - name: "Delete patches from server (afterwards)"

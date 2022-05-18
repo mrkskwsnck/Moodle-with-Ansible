@@ -6,7 +6,9 @@
   roles:
     - php
 
-- hosts: all
+- hosts:
+    - webservers
+    - agents
   gather_facts: no
   roles:
     - prerequisites
