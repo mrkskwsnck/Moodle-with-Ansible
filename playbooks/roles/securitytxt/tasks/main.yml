@@ -1,18 +1,21 @@
----
-- name: Delete wrong placed .well-known folder
+# See https://securitytxt.org/
+
+- name: Delete wrong placed .well-known file(s)
   file:
-    path: "{{ moodle_home }}/.well-known"
+    path: "{{ item }}"
     state: absent
-  tags: securitytxt
+  loop:
+    - "{{ moodle_home }}/.well-known"
+    - "{{ document_root }}/.well-known/security.txt.j2"
+
 - name: Create .well-known folder
   file:
     dest: "{{ document_root }}/.well-known"
     mode: 0755
     state: directory
-  tags: securitytxt
-- name: Copy security.txt file
-  copy:
-    src: security.txt
-    dest: "{{ document_root }}/.well-known"
+
+- name: Copy security.txt template
+  template:
+    src: security.txt.j2
+    dest: "{{ document_root }}/.well-known/security.txt"
     mode: 0644
-  tags: securitytxt
