@@ -14,7 +14,8 @@
     - prerequisites
     - moodle
     - caches
-    - securitytxt
+    - role: securitytxt
+      tags: securitytxt
   post_tasks:
   - name: Display post deploy message
     debug:
